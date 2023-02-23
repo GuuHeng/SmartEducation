@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/smart_education.dart';
-import 'package:smart_education/home/timetable.dart';
-import 'package:smart_education/home/weekday_timetable.dart';
+import 'package:smart_education/home/smart_education.dart';
+import 'package:smart_education/timetable/timetable.dart';
+import 'package:smart_education/timetable/weekday_timetable.dart';
 
 void main() {
-  runApp(WeekdayTimeTable());
+  runApp(
+    MaterialApp(
+      home: SmartEducation(),
+      routes: {
+              'home':(context) => SmartEducation(),
+              'timetable':(context) => TimeTable(),
+              'weekday_timetable':(context) => WeekdayTimeTable()
+            }
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {

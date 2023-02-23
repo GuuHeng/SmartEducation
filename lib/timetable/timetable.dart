@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/home/timetable_settings.dart';
-import 'package:smart_education/home/weekday_timetable.dart';
+import 'timetable_settings.dart';
+import 'weekday_timetable.dart';
 
 class TimeTable extends StatelessWidget {
   @override
@@ -71,10 +71,6 @@ class _TimeTableState extends State<_TimeTable> {
   void switchTimeTable(BuildContext context) {
     setState(() {
       _title = _title == "这周课表" ? "今日课表" : "这周课表";
-      if (_title == "这周课表") {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => WeekdayTimeTable()));
-      }
     });
   }
 
