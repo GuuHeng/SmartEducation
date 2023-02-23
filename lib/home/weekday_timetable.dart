@@ -21,15 +21,16 @@ class WeekdayTimeTableState extends State {
       body: Column(
         children: [
           SizedBox(
-            child: GridView(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 7, childAspectRatio: 1),
+            child: Row(
               children: [
                 Column(
-                  children: [Text("")],
+                  children: [
+                    Text("周一"),
+                    Text("11/11"),
+                  ],
                 )
               ],
-            ),
+            )
           ),
         ],
       ),

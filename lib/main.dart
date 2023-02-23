@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/smart_education.dart';
 import 'package:smart_education/home/timetable.dart';
+import 'package:smart_education/home/weekday_timetable.dart';
 
 void main() {
-  runApp(TimeTable());
+  runApp(WeekdayTimeTable());
 }
 
 class MyApp extends StatelessWidget {
