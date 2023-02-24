@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_education/util/device.dart';
 
 class WeekdayTimeTable extends StatefulWidget {
   @override
@@ -13,37 +14,35 @@ class WeekdayTimeTableState extends State {
 
   Widget weekdayHeader() {
     return SizedBox(
-        height: 40,
+        height: 100,
         child: DecoratedBox(
           decoration: BoxDecoration(color: Colors.blue),
           child: GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: dayList.length),
+              physics: NeverScrollableScrollPhysics(),
               children: dayList.map((e) {
                 return DecoratedBox(
                     decoration: BoxDecoration(
-                        border: Border.all(width: 1.0, color: Colors.black12)),
+                        border: Border.all(width: 1.0, color: Colors.black12),
+                        color: Colors.white),
                     child: Column(
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
+                        Container(
                             child: Text(
                               e,
                               style:
                                   TextStyle(fontSize: 12, color: Colors.black),
                             ),
-                            color: Colors.white
-                            ),),
-                            Expanded(child: Container(
-                              height: 30,
+                            color: Colors.pink),
+                        Container(
+                          height: 15,
                           child: Text(
                             "11/11",
                             style: TextStyle(fontSize: 11, color: Colors.black),
                           ),
                           color: Colors.red,
-                        ))
-                        
+                        )
                       ],
                     ));
               }).toList()),
@@ -58,7 +57,53 @@ class WeekdayTimeTableState extends State {
           title: Text("一周课表"),
         ),
         body: Column(
-          children: [weekdayHeader()],
+          children: [
+            weekdayHeader(),
+            Row(
+              children: [
+                Container(
+                  width: 100,
+                  height: 300,
+                  child:Column(
+                      children: [
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                        Expanded(child: Text("aaaa")),
+                      ],
+                    ),
+                  color: Colors.red,
+                ),
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: contentView(),
+                )
+              ],
+            )
+          ],
         ));
+  }
+
+  Widget contentView() {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7), 
+      itemCount: 10,
+      itemBuilder: (BuildContext context, int index) {
+      return Container(
+        width: 100,
+        height: 100,
+        child: Stack(
+          children: [
+            Positioned(child: Text("语文", style: TextStyle(fontSize: 13.0, color: Colors.black),), top: 10, left: 10,),
+            Positioned(child: Text("提示", style: TextStyle(fontSize: 11.0, color: Colors.green)), top: 50, left: 10,)
+          ],
+        ),
+      );
+    });
   }
 }
