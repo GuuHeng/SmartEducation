@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:smart_education/util/device.dart';
 
@@ -12,9 +15,26 @@ class WeekdayTimeTable extends StatefulWidget {
 class WeekdayTimeTableState extends State {
   final dayList = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("一周课表"),
+        ),
+        body: Column(
+          children: [
+            weekdayHeader(),
+            Row(
+              children: [timeView(), contentView()],
+            )
+          ],
+        ));
+  }
+
   Widget weekdayHeader() {
     return SizedBox(
-        height: 100,
+        height: WeekdayTimeTableUX.headerHeight,
         child: DecoratedBox(
           decoration: BoxDecoration(color: Colors.blue),
           child: GridView(
@@ -49,61 +69,71 @@ class WeekdayTimeTableState extends State {
         ));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("一周课表"),
-        ),
-        body: Column(
-          children: [
-            weekdayHeader(),
-            Row(
-              children: [
-                Container(
-                  width: 100,
-                  height: 300,
-                  child:Column(
-                      children: [
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                        Expanded(child: Text("aaaa")),
-                      ],
-                    ),
-                  color: Colors.red,
-                ),
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: contentView(),
-                )
-              ],
-            )
-          ],
-        ));
+  
+
+  Widget timeView() {
+    return Container(
+      width: WeekdayTimeTableUX.timeAreaWidth,
+      height: WeekdayTimeTableUX.timeAreaHeight,
+      child: Column(
+        children: [
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+          Expanded(child: Text("aaaa")),
+        ],
+      ),
+      color: Colors.red,
+    );
   }
 
   Widget contentView() {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7), 
-      itemCount: 10,
-      itemBuilder: (BuildContext context, int index) {
-      return Container(
-        width: 100,
-        height: 100,
-        child: Stack(
-          children: [
-            Positioned(child: Text("语文", style: TextStyle(fontSize: 13.0, color: Colors.black),), top: 10, left: 10,),
-            Positioned(child: Text("提示", style: TextStyle(fontSize: 11.0, color: Colors.green)), top: 50, left: 10,)
-          ],
-        ),
-      );
-    });
+    return SizedBox(
+        width: WeekdayTimeTableUX.contentAreaWidth,
+        height: WeekdayTimeTableUX.contentAreaHeight,
+        child: Container(
+          color: Colors.pink,
+          child: GridView.builder(
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
+              itemCount: 70,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  width: 40,
+                  height: 60,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        child: Text(
+                          "语文",
+                          style: TextStyle(fontSize: 13.0, color: Colors.black),
+                        ),
+                        top: 10,
+                        left: 10,
+                      ),
+                      Positioned(
+                        child: Text("提示",
+                            style:
+                                TextStyle(fontSize: 11.0, color: Colors.green)),
+                        top: 20,
+                        left: 10,
+                      )
+                    ],
+                  ),
+                );
+              }),
+        ));
   }
+}
+
+class WeekdayTimeTableUX {
+  static double headerHeight = 40;
+  static double timeAreaWidth = 40;
+  static double timeAreaHeight = 400;
+  static double contentAreaWidth = Screen.width - timeAreaHeight;
+  static double contentAreaHeight = Screen.height - Screen.navigatorBar_height;
 }
