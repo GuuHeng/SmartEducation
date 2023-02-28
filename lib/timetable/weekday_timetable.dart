@@ -1,8 +1,6 @@
-import 'dart:ffi';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:smart_education/util/device.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class WeekdayTimeTable extends StatefulWidget {
   @override
@@ -96,6 +94,7 @@ class WeekdayTimeTableState extends State {
         width: WeekdayTimeTableUX.contentAreaWidth,
         height: WeekdayTimeTableUX.contentAreaHeight,
         child: Container(
+
           color: Colors.pink,
           child: GridView.builder(
               gridDelegate:
@@ -103,8 +102,9 @@ class WeekdayTimeTableState extends State {
               itemCount: 70,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
+                  decoration: BoxDecoration(border: Border.all(width: 1.0, color: Colors.black)),
                   width: 40,
-                  height: 60,
+                  height: WeekdayTimeTableUX.timeAreaSubHeight,
                   child: Stack(
                     children: [
                       Positioned(
@@ -133,7 +133,11 @@ class WeekdayTimeTableState extends State {
 class WeekdayTimeTableUX {
   static double headerHeight = 40;
   static double timeAreaWidth = 40;
-  static double timeAreaHeight = 400;
-  static double contentAreaWidth = Screen.width - timeAreaHeight;
-  static double contentAreaHeight = Screen.height - Screen.navigatorBar_height;
+  static double timeAreaHeight = Screen.height - Screen.navigatorBar_height - headerHeight - 12;
+  static double timeAreaSubHeight = 100;
+  static double contentAreaWidth = Screen.width - timeAreaWidth;
+  static double contentAreaHeight = timeAreaHeight;
+  static Color headerBackgroundColor = Colors.white;
+  static Color timeAreaBackgroundColor = Colors.white;
+  static Color contentAreaBackgroundColor = Colors.white;
 }
