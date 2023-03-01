@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_education/timetable/weekday_timetable_data.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:smart_education/timetable/wt_contentItem.dart';
 
 class WeekdayTimeTable extends StatefulWidget {
   @override
@@ -17,11 +18,14 @@ class WeekdayTimeTableState extends State {
   // 一天10节课
   int lessonCount = 10;
 
+  // 装填左边课节和时间的数据
   List<Lesson>? lessonList;
+  // 装填这周每节课数据
   List<ClassSubject>? classSubjectList;
+  // 装填这周每节课数据
+  List<ClassSubjectUserData>? csUserDataList;
 
   WeekdayTimeTableData timeTableData = WeekdayTimeTableData();
-
 
   @override
   void initState() {
@@ -29,9 +33,12 @@ class WeekdayTimeTableState extends State {
 
     List<ClassSubject> csList = timeTableData.get_weekday_classSubject_data();
     List<Lesson> leList = timeTableData.get_today_total_lesson_times();
+    List<ClassSubjectUserData> csudList =
+        timeTableData.get_weekday_classSubject_userdata();
     setState(() {
       this.classSubjectList = csList;
       this.lessonList = leList;
+      this.csUserDataList = csudList;
     });
   }
 
@@ -46,13 +53,13 @@ class WeekdayTimeTableState extends State {
           weekdayHeader(),
           Expanded(
               child: SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
+                  physics: ClampingScrollPhysics(),
                   child: Row(
-            children: [
-              Expanded(flex: 1, child: timeView()),
-              Expanded(flex: 7, child: contentView())
-            ],
-          )))
+                    children: [
+                      Expanded(flex: 1, child: timeView()),
+                      Expanded(flex: 7, child: contentView())
+                    ],
+                  )))
         ]));
   }
 
@@ -78,10 +85,10 @@ class WeekdayTimeTableState extends State {
           children: dayList.map((e) {
             return Container(
               child: Center(
-                child: Text(e),
+                child: Text(e, style: TextStyle(fontWeight: FontWeight.bold),),
               ),
               decoration: BoxDecoration(
-                color: Color.fromARGB(12, 0, 0, 0),
+                  color: Color.fromARGB(12, 0, 0, 0),
                   border: Border(
                       right: BorderSide(width: 1, color: Colors.black12),
                       bottom: BorderSide(width: 1, color: Colors.black12))),
@@ -91,80 +98,168 @@ class WeekdayTimeTableState extends State {
   }
 
   Widget timeView() {
-    return GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, childAspectRatio: 1 / 2),
-        itemCount: lessonCount,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: Center(
-              child: Text(
-                (index + 1).toString() + "\n" + lessonList![index].beginTime + "\n" + "~"  + "\n"+ lessonList![index].endTime,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Color.fromARGB(12, 0, 0, 0),
-                border: Border(
-                    right: BorderSide(width: 1, color: Colors.black12),
-                    bottom: BorderSide(width: 1, color: Colors.black12))),
-          );
-        });
+    return Column(
+      children: [
+        GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, childAspectRatio: 1 / 2),
+            itemCount: timeTableData.morningLessonCount,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: Center(
+                  child: Text(
+                    (index + 1).toString() +
+                        "\n" +
+                        timeTableData!.morningLessonList![index].beginTime +
+                        "\n" +
+                        "~" +
+                        "\n" +
+                        timeTableData!.morningLessonList![index].endTime,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(12, 0, 0, 0),
+                    border: Border(
+                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.black12))),
+              );
+            }),
+        Padding(padding: EdgeInsets.only(top: 0)),
+        GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, childAspectRatio: 1 / 2),
+            itemCount: timeTableData.afternoonLessonCount,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: Center(
+                  child: Text(
+                    (index + 1).toString() +
+                        "\n" +
+                        timeTableData!.afternoonLessonList![index].beginTime +
+                        "\n" +
+                        "~" +
+                        "\n" +
+                        timeTableData!.afternoonLessonList![index].endTime,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(12, 0, 0, 0),
+                    border: Border(
+                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.black12),
+                        top: BorderSide(width: 1, color: Colors.black12))),
+              );
+            }),
+            Padding(padding: EdgeInsets.only(top: 0)),
+        GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, childAspectRatio: 1 / 2),
+            itemCount: timeTableData.eveningLessonCount,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: Center(
+                  child: Text(
+                    (index + 1).toString() +
+                        "\n" +
+                        timeTableData!.eveningLessonList![index].beginTime +
+                        "\n" +
+                        "~" +
+                        "\n" +
+                        timeTableData!.eveningLessonList![index].endTime,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(12, 0, 0, 0),
+                    border: Border(
+                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.black12),
+                        top: BorderSide(width: 1, color: Colors.black12))),
+              );
+            }),
+      ],
+    );
   }
 
-  Color itemBackgroundColor = Colors.red;
+  Color itemBackgroundColor = Colors.white;
 
   Widget contentView() {
-    return GridView.builder(
+    return Column(
+      children: [
+        GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 7, childAspectRatio: 1 / 2),
-        itemCount: 70,
+        itemCount: 28,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              itemBackgroundColor = Colors.blue;
-              setState(() {
-                
-              });
+              setState(() {});
             },
             child: Container(
-            decoration: BoxDecoration(
-              color: itemBackgroundColor,
-                border: Border(
-                    right: BorderSide(width: 1, color: Colors.black12),
-                    bottom: BorderSide(width: 1, color: Colors.black12))),
-            child: Stack(
-              children: [
-                Positioned(
-                  child: Text(
-                    (this.classSubjectList != null
-                        ? this.classSubjectList![index].subject.name
-                        : ""),
-                    style: TextStyle(fontSize: 13.0, color: Colors.black),
-                    textAlign: TextAlign.center,
-                  ),
-                  top: 10,
-                  left: 10,
-                  right: 10,
-                ),
-                const Positioned(
-                  child: Text(
-                    "提示",
-                    style: TextStyle(fontSize: 11.0, color: Colors.green),
-                    textAlign: TextAlign.center,
-                  ),
-                  top: 40,
-                  left: 10,
-                  right: 10,
-                )
-              ],
-            ),
-          ),
+                decoration: BoxDecoration(
+                    color: itemBackgroundColor,
+                    border: Border(
+                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.black12))),
+                child: WTContentItem(csUserData: csUserDataList![index])),
           );
-        });
+        }),
+        Padding(padding: EdgeInsets.only(top: 0)),
+        GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7, childAspectRatio: 1 / 2),
+        itemCount: 21,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {});
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(12, 0, 0, 0),
+                    border: Border(
+                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.black12),
+                        top: BorderSide(width: 1, color: Colors.black12))),
+                child: WTContentItem(csUserData: csUserDataList![28+index])),
+          );
+        }),
+        Padding(padding: EdgeInsets.only(top: 0)),
+        GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7, childAspectRatio: 1 / 2),
+        itemCount: 21,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {});
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.black12),
+                        top: BorderSide(width: 1, color: Colors.black12))),
+                child: WTContentItem(csUserData: csUserDataList![28+21+index])),
+          );
+        }),
+      ],
+    );
   }
 }
 

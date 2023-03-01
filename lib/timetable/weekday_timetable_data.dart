@@ -45,10 +45,22 @@ class WeekdayTimeTableData {
   // 课间休息时间，默认是10分钟
   int recessDuration = 10;
 
+  List<Lesson>? morningLessonList;
+  List<Lesson>? afternoonLessonList;
+  List<Lesson>? eveningLessonList;
+
   
   List<Lesson> get_today_total_lesson_times() {
 
     List<Lesson> lessonList = <Lesson>[];
+
+    List<Lesson> morningList = get_lesson_times(defaultMorningBeginTime, lessonDuratiion, morningLessonCount);
+    List<Lesson> afternoonList = get_lesson_times(defaultAfternoonBeginTime, lessonDuratiion, afternoonLessonCount);
+    List<Lesson> eveningList = get_lesson_times(defaultEveningBeginTime, lessonDuratiion, eveningLessonCount);
+
+    morningLessonList = morningList;
+    afternoonLessonList = afternoonList;
+    eveningLessonList = eveningList;
 
     lessonList.addAll(get_lesson_times(defaultMorningBeginTime, lessonDuratiion, morningLessonCount));
     lessonList.addAll(get_lesson_times(defaultAfternoonBeginTime, lessonDuratiion, afternoonLessonCount));
@@ -133,6 +145,54 @@ class WeekdayTimeTableData {
     return list;
   }
 
+  // 假设七天都有课，每天上午四节课，下午三节课，晚上三节课，总共十节课；
+  List<ClassSubjectUserData> get_weekday_classSubject_userdata() {
+
+    this.classSubjectList = get_classSubject_data();
+
+    final int totalCount = 70;
+    final int classSubjectCount = this.classSubjectList.length;
+
+    var range = Random();
+    var list = <ClassSubjectUserData>[];
+
+    for (int index = 0; index < totalCount; index ++) {
+      int randomIndex = range.nextInt(classSubjectCount);
+      ClassSubject cs = this.classSubjectList[randomIndex];
+      ClassSubjectUserData userData = ClassSubjectUserData(cs);
+      if (index % 10 == 0) {
+        userData.isPayAttention = true;
+      }
+      if (index == 11) {
+        userData.tipList = ["小茗同学请假"];
+      }
+
+      if (index == 23) {
+        userData.tipList = ["小红同学请假"];
+      }
+
+      if (index == 55) {
+        userData.tipList = ["小红同学请假", "小李同学精神低迷，需要注意"];
+      }
+
+      list.add(userData);
+    }
+
+    return list;
+  }
+
+}
+
+enum ClassSubjectExtension {
+a;
+}
+
+class ClassSubjectUserData {
+  ClassSubject classSubject;
+  bool isPayAttention = false;
+  List<String>? tipList;
+
+  ClassSubjectUserData(this.classSubject);
 }
 
 class ClassSubject {
