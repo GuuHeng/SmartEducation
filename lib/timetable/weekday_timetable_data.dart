@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:time/time.dart';
 
 class WeekdayTimeTableData {
 
@@ -30,6 +31,60 @@ class WeekdayTimeTableData {
     "默默"
   ];
 
+  // 一天上课的默认起始时间
+  String defaultMorningBeginTime = "08:00";
+  String defaultAfternoonBeginTime = "14:00";
+  String defaultEveningBeginTime = "18:00";
+
+  // 一节课的时长，默认是40分钟
+  int lessonDuratiion = 40;
+  int morningLessonCount = 4;
+  int afternoonLessonCount = 3;
+  int eveningLessonCount = 3;
+
+  // 课间休息时间，默认是10分钟
+  int recessDuration = 10;
+
+  
+  List<Lesson> get_today_total_lesson_times() {
+
+    List<Lesson> lessonList = <Lesson>[];
+
+    lessonList.addAll(get_lesson_times(defaultMorningBeginTime, lessonDuratiion, morningLessonCount));
+    lessonList.addAll(get_lesson_times(defaultAfternoonBeginTime, lessonDuratiion, afternoonLessonCount));
+    lessonList.addAll(get_lesson_times(defaultEveningBeginTime, lessonDuratiion, eveningLessonCount));
+
+    return lessonList;
+  }
+
+  List<Lesson> get_lesson_times(String beginHM, int duration, int count) {
+    List<Lesson> lessonList = <Lesson>[];
+
+    DateTime nowTime = DateTime.now();
+    List<String> hmList = beginHM.split(":");
+
+    DateTime beginDateTime = DateTime(nowTime.year, nowTime.month, nowTime.day, int.parse(hmList.first), int.parse(hmList.last), 0);
+
+    for (int index = 0; index < count; index ++) {
+      DateTime endDateTime = beginDateTime + duration.minutes;
+
+      // List<String> beginhms = beginDateTime.toString().split(" ").last.split(":");
+      // List<String> endhms = endDateTime.toString().split(" ").last.split(":");
+      // String beginDateTimeText = beginDateTime.hour.toString() + ":" + beginDateTime.minute.toString();
+      // String endDateTimeText = endDateTime.hour.toString() + ":" + endDateTime.minute.toString();
+
+      String beginDateTimeText = beginDateTime.toString().split(" ").last.substring(0, 5);
+      String endDateTimeText = endDateTime.toString().split(" ").last.substring(0, 5);
+      Lesson lesson = Lesson(beginDateTimeText, endDateTimeText);
+
+      lessonList.add(lesson);
+
+      beginDateTime = endDateTime + 10.minutes;
+    }
+
+    return lessonList;
+  }
+
 
   List<Teacher> teacherList = <Teacher>[];
   List<Subject> subjectList = <Subject>[];
@@ -60,6 +115,9 @@ class WeekdayTimeTableData {
 
   // 假设七天都有课，每天上午四节课，下午三节课，晚上三节课，总共十节课；
   List<ClassSubject> get_weekday_classSubject_data() {
+
+    this.classSubjectList = get_classSubject_data();
+
     final int totalCount = 70;
     final int classSubjectCount = this.classSubjectList.length;
 
@@ -78,16 +136,16 @@ class WeekdayTimeTableData {
 }
 
 class ClassSubject {
-  Teacher? teacher;
-  Subject? subject;
+  Teacher teacher;
+  Subject subject;
 
   ClassSubject(this.teacher, this.subject);
 }
 
 // 科目
 class Subject {
-  String? id;
-  String? name;
+  String id;
+  String name;
 
   Subject(this.id, this.name);
 }
@@ -99,4 +157,11 @@ class Teacher {
   Subject? subject;
 
   Teacher(this.id, this.name, this.subject);
+}
+
+class Lesson {
+  String beginTime;
+  String endTime;
+
+  Lesson(this.beginTime, this.endTime);
 }

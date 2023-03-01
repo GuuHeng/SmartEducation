@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   # flutter_screenutil: ^{latest version}
   flutter_easyloading: ^3.0.5
+  time: "^2.1.3"
   
 
 dev_dependencies:
