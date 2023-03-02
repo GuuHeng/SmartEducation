@@ -17,8 +17,6 @@ class _TimeTable extends StatefulWidget {
 }
 
 class _TimeTableState extends State<_TimeTable> {
-  var _title = "今日课表";
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,47 +28,85 @@ class _TimeTableState extends State<_TimeTable> {
           //       openSetting();
           //     },
           //     icon: Icon(Icons.menu)),
-          title: Text(_title),
+          title: Text("今日课表"),
           actions: <Widget>[
             IconButton(
                 onPressed: () {
                   switchTimeTable(context);
                 },
-                icon: Icon(Icons.switch_camera))
+                icon: Text("周")),
           ],
         ),
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 10, top: 20),
-              child: Column(
-                children: [
-                  Text("8:00"),
-                  Text("9:00"),
-                  Text("10:00"),
-                  Text("11:00"),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, top: 20),
-              child: Table(
-                children: <TableRow>[
-                  TableRow(children: [Text("语文"), Text("数学")])
-                ],
-              ),
-            )
-          ],
-        ),
+        body: ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            return _setupListRow();
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider(height: 1, color: Colors.black12);
+          },
+          itemCount: 10),
         drawer: TimeTableSettings(),
       ),
     );
   }
 
+  Widget _setupListRow() {
+    return Container(
+      height: 120,
+        child: Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Container(
+            width: 50,
+            child: Center(child: Text("08:00~08:45")),
+          ),
+        ),
+        Expanded(
+          child: Stack(
+          children: [
+            Center(
+              child: Text(
+                "语     文",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30, color: Colors.grey),
+              ),
+            ),
+            Column(
+              textDirection: TextDirection.ltr,
+              children: [
+                Positioned(
+                  top: 10,
+                  left: 10,                  
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.blue),
+                    child: IntrinsicWidth(
+                      child: Row(
+                  children: [
+                    Text("@张老师：", style: TextStyle(fontSize: 12, color: Colors.red),),
+                    Text("张三同学已请假", style: TextStyle(fontSize: 12, color: Colors.black),)
+                  ]),
+                    )
+                  )
+                  ),
+                Positioned(
+                  top: 10,
+                  left: 10,                  child: Row(
+                  children: [
+                    Text("@张老师：", style: TextStyle(fontSize: 12, color: Colors.red),),
+                    Text("张三同学已请假", style: TextStyle(fontSize: 12, color: Colors.black),)
+                  ])),
+              ],
+            )
+          ],
+        ))
+      ],
+    ));
+  }
+
   void switchTimeTable(BuildContext context) {
     setState(() {
-      _title = _title == "这周课表" ? "今日课表" : "这周课表";
+      Navigator.pushNamed(context, "weekday_timetable");
     });
   }
 

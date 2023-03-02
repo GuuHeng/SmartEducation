@@ -21,9 +21,9 @@ class _SmartEducationState extends State<SmartEducation>
         body: Container(
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.pushNamed(context, "weekday_timetable");
+              Navigator.pushNamed(context, "timetable");
             },
-            child: Text("周课表"),
+            child: Text("课表"),
           ),
         ));
   }

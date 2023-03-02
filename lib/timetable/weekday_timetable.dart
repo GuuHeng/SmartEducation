@@ -1,13 +1,16 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
-import 'package:smart_education/timetable/weekday_timetable_data.dart';
+import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:smart_education/timetable/wt_contentItem.dart';
 
 class WeekdayTimeTable extends StatefulWidget {
+  const WeekdayTimeTable({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return WeekdayTimeTableState();
   }
 }
@@ -29,31 +32,31 @@ class WeekdayTimeTableState extends State {
 
   @override
   void initState() {
-    // getData();
+    super.initState();
 
     List<ClassSubject> csList = timeTableData.get_weekday_classSubject_data();
     List<Lesson> leList = timeTableData.get_today_total_lesson_times();
     List<ClassSubjectUserData> csudList =
         timeTableData.get_weekday_classSubject_userdata();
     setState(() {
-      this.classSubjectList = csList;
-      this.lessonList = leList;
-      this.csUserDataList = csudList;
+      classSubjectList = csList;
+      lessonList = leList;
+      csUserDataList = csudList;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
-          title: Text("一周课表"),
+          title: const Text("一周课表"),
+          actions: [_popupMenuButton()],
         ),
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           weekdayHeader(),
           Expanded(
               child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: Row(
                     children: [
                       Expanded(flex: 1, child: timeView()),
@@ -63,14 +66,21 @@ class WeekdayTimeTableState extends State {
         ]));
   }
 
-  void getData() {
-    Future() {
-      List<ClassSubject> data =
-          WeekdayTimeTableData().get_weekday_classSubject_data();
-      setState(() {
-        this.classSubjectList = data;
-      });
-    }
+  PopupMenuButton _popupMenuButton() {
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        return timeTableData.subjects.map((e) => PopupMenuItem(child: Text(e),
+        onTap: () {
+          if (csUserDataList != null) {
+            setState(() {
+              List<ClassSubjectUserData> list = csUserDataList!;
+            for (int index = 0; index < list.length; index ++) {
+              ClassSubjectUserData data = list[index];
+              data.isHighlighted = data.classSubject.subject.name == e;
+            }});
+          }
+        },)).toList();
+        });
   }
 
   Widget weekdayHeader() {
@@ -79,19 +89,22 @@ class WeekdayTimeTableState extends State {
       child: GridView(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: dayList.length, childAspectRatio: 1),
           children: dayList.map((e) {
             return Container(
-              child: Center(
-                child: Text(e, style: TextStyle(fontWeight: FontWeight.bold),),
-              ),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Color.fromARGB(12, 0, 0, 0),
                   border: Border(
                       right: BorderSide(width: 1, color: Colors.black12),
                       bottom: BorderSide(width: 1, color: Colors.black12))),
+              child: Center(
+                child: Text(
+                  e,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             );
           }).toList()),
     );
@@ -100,91 +113,14 @@ class WeekdayTimeTableState extends State {
   Widget timeView() {
     return Column(
       children: [
-        GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, childAspectRatio: 1 / 2),
-            itemCount: timeTableData.morningLessonCount,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Center(
-                  child: Text(
-                    (index + 1).toString() +
-                        "\n" +
-                        timeTableData!.morningLessonList![index].beginTime +
-                        "\n" +
-                        "~" +
-                        "\n" +
-                        timeTableData!.morningLessonList![index].endTime,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(12, 0, 0, 0),
-                    border: Border(
-                        right: BorderSide(width: 1, color: Colors.black12),
-                        bottom: BorderSide(width: 1, color: Colors.black12))),
-              );
-            }),
-        Padding(padding: EdgeInsets.only(top: 0)),
-        GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, childAspectRatio: 1 / 2),
-            itemCount: timeTableData.afternoonLessonCount,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Center(
-                  child: Text(
-                    (index + 1).toString() +
-                        "\n" +
-                        timeTableData!.afternoonLessonList![index].beginTime +
-                        "\n" +
-                        "~" +
-                        "\n" +
-                        timeTableData!.afternoonLessonList![index].endTime,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(12, 0, 0, 0),
-                    border: Border(
-                        right: BorderSide(width: 1, color: Colors.black12),
-                        bottom: BorderSide(width: 1, color: Colors.black12),
-                        top: BorderSide(width: 1, color: Colors.black12))),
-              );
-            }),
-            Padding(padding: EdgeInsets.only(top: 0)),
-        GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, childAspectRatio: 1 / 2),
-            itemCount: timeTableData.eveningLessonCount,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Center(
-                  child: Text(
-                    (index + 1).toString() +
-                        "\n" +
-                        timeTableData!.eveningLessonList![index].beginTime +
-                        "\n" +
-                        "~" +
-                        "\n" +
-                        timeTableData!.eveningLessonList![index].endTime,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(12, 0, 0, 0),
-                    border: Border(
-                        right: BorderSide(width: 1, color: Colors.black12),
-                        bottom: BorderSide(width: 1, color: Colors.black12),
-                        top: BorderSide(width: 1, color: Colors.black12))),
-              );
-            }),
+        setup_time_itemsView(
+            timeTableData.morningLessonCount, timeTableData.morningLessonList!),
+        const Padding(padding: EdgeInsets.only(top: 0)),
+        setup_time_itemsView(timeTableData.afternoonLessonCount,
+            timeTableData.afternoonLessonList!),
+        const Padding(padding: EdgeInsets.only(top: 0)),
+        setup_time_itemsView(
+            timeTableData.eveningLessonCount, timeTableData.eveningLessonList!),
       ],
     );
   }
@@ -194,72 +130,88 @@ class WeekdayTimeTableState extends State {
   Widget contentView() {
     return Column(
       children: [
-        GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, childAspectRatio: 1 / 2),
-        itemCount: 28,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {});
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                    color: itemBackgroundColor,
-                    border: Border(
-                        right: BorderSide(width: 1, color: Colors.black12),
-                        bottom: BorderSide(width: 1, color: Colors.black12))),
-                child: WTContentItem(csUserData: csUserDataList![index])),
-          );
-        }),
-        Padding(padding: EdgeInsets.only(top: 0)),
-        GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, childAspectRatio: 1 / 2),
-        itemCount: 21,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {});
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(12, 0, 0, 0),
-                    border: Border(
-                        right: BorderSide(width: 1, color: Colors.black12),
-                        bottom: BorderSide(width: 1, color: Colors.black12),
-                        top: BorderSide(width: 1, color: Colors.black12))),
-                child: WTContentItem(csUserData: csUserDataList![28+index])),
-          );
-        }),
-        Padding(padding: EdgeInsets.only(top: 0)),
-        GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, childAspectRatio: 1 / 2),
-        itemCount: 21,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {});
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                        right: BorderSide(width: 1, color: Colors.black12),
-                        bottom: BorderSide(width: 1, color: Colors.black12),
-                        top: BorderSide(width: 1, color: Colors.black12))),
-                child: WTContentItem(csUserData: csUserDataList![28+21+index])),
-          );
-        }),
+        setup_classSubjects_itemsView(28, csUserDataList!.sublist(0, 28)),
+        const Padding(padding: EdgeInsets.only(top: 0)),
+        setup_classSubjects_itemsView(21, csUserDataList!.sublist(28, 28 + 21)),
+        const Padding(padding: EdgeInsets.only(top: 0)),
+        setup_classSubjects_itemsView(
+            21, csUserDataList!.sublist(28 + 21, 28 + 21 + 21)),
       ],
     );
+  }
+
+  Widget setup_time_itemsView(int itemCount, List<Lesson> lessonList) {
+    return GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1, childAspectRatio: 1 / 2),
+        itemCount: itemCount,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(12, 0, 0, 0),
+                border: Border(
+                  right: BorderSide(width: 1, color: Colors.black12),
+                  bottom: BorderSide(width: 1, color: Colors.black12),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  "${index + 1}\n${lessonList[index].beginTime}\n~\n${lessonList[index].endTime}",
+                  // (index + 1).toString() +
+                  //     "\n" +
+                  //     lessonList[index].beginTime +
+                  //     "\n" +
+                  //     "~" +
+                  //     "\n" +
+                  //     lessonList[index].endTime,
+                  textAlign: TextAlign.center,
+                ),
+              ));
+        });
+  }
+
+  Widget setup_classSubjects_itemsView(
+      int itemCount, List<ClassSubjectUserData> csUserDataList) {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7, childAspectRatio: 1 / 2),
+        itemCount: itemCount,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              String tipText = "";
+              List<String>? tipList = csUserDataList[index].tipList;
+              if (tipList != null) {
+                for (int i = 0; i < tipList.length; i++) {
+                  tipText = tipText + "\n" + tipList[i];
+                }
+              }
+
+              List<String>? payAttentionList =
+                  csUserDataList[index].payAttentionList;
+              if (payAttentionList != null) {
+                for (int i = 0; i < payAttentionList.length; i++) {
+                  tipText = tipText + "\n" + payAttentionList[i];
+                }
+              }
+              if (tipText.isNotEmpty) {
+                EasyLoading.showToast(tipText);
+              }
+            },
+            child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      right: BorderSide(width: 1, color: Colors.black12),
+                      bottom: BorderSide(width: 1, color: Colors.black12),
+                    )),
+                child: WTContentItem(csUserData: csUserDataList[index])),
+          );
+        });
   }
 }
 

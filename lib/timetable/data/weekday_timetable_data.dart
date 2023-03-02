@@ -2,8 +2,7 @@ import 'dart:math';
 import 'package:time/time.dart';
 
 class WeekdayTimeTableData {
-
-  List subjects = [
+  List<String> subjects = [
     "语文",
     "数学",
     "外语",
@@ -17,7 +16,7 @@ class WeekdayTimeTableData {
     "音乐"
   ];
 
-  List teachers = [
+  List<String> teachers = [
     "赵一",
     "钱二",
     "张三",
@@ -49,7 +48,7 @@ class WeekdayTimeTableData {
   List<Lesson>? afternoonLessonList;
   List<Lesson>? eveningLessonList;
 
-  
+  // 所有科目的上课时间
   List<Lesson> get_today_total_lesson_times() {
 
     List<Lesson> lessonList = <Lesson>[];
@@ -69,6 +68,7 @@ class WeekdayTimeTableData {
     return lessonList;
   }
 
+  // 计算指定时间段的上课时间
   List<Lesson> get_lesson_times(String beginHM, int duration, int count) {
     List<Lesson> lessonList = <Lesson>[];
 
@@ -98,9 +98,9 @@ class WeekdayTimeTableData {
   }
 
 
-  List<Teacher> teacherList = <Teacher>[];
-  List<Subject> subjectList = <Subject>[];
-  List<ClassSubject> classSubjectList = <ClassSubject>[];
+  // List<Teacher> _teacherList = <Teacher>[];
+  // List<Subject> _subjectList = <Subject>[];
+  List<ClassSubject> _classSubjectList = <ClassSubject>[];
 
   List<ClassSubject> get_classSubject_data() {
     for (int index = 0; index < this.subjects.length; index++) {
@@ -115,12 +115,12 @@ class WeekdayTimeTableData {
 
       ClassSubject classSubject = ClassSubject(teacher, subject);
 
-      subjectList.add(subject);
-      teacherList.add(teacher);
-      classSubjectList.add(classSubject);
+      // _subjectList.add(subject);
+      // _teacherList.add(teacher);
+      _classSubjectList.add(classSubject);
     }
 
-    return classSubjectList;
+    return _classSubjectList;
   }
 
   List<ClassSubject> weekday_classSubjectList = <ClassSubject>[];
@@ -128,17 +128,17 @@ class WeekdayTimeTableData {
   // 假设七天都有课，每天上午四节课，下午三节课，晚上三节课，总共十节课；
   List<ClassSubject> get_weekday_classSubject_data() {
 
-    this.classSubjectList = get_classSubject_data();
+    this._classSubjectList = get_classSubject_data();
 
     final int totalCount = 70;
-    final int classSubjectCount = this.classSubjectList.length;
+    final int classSubjectCount = this._classSubjectList.length;
 
     var range = Random();
     var list = <ClassSubject>[];
 
     for (int index = 0; index < totalCount; index ++) {
       int randomIndex = range.nextInt(classSubjectCount);
-      ClassSubject cs = this.classSubjectList[randomIndex];
+      ClassSubject cs = this._classSubjectList[randomIndex];
       list.add(cs);
     }
 
@@ -148,27 +148,33 @@ class WeekdayTimeTableData {
   // 假设七天都有课，每天上午四节课，下午三节课，晚上三节课，总共十节课；
   List<ClassSubjectUserData> get_weekday_classSubject_userdata() {
 
-    this.classSubjectList = get_classSubject_data();
+    this._classSubjectList = get_classSubject_data();
 
     final int totalCount = 70;
-    final int classSubjectCount = this.classSubjectList.length;
+    final int classSubjectCount = this._classSubjectList.length;
 
     var range = Random();
     var list = <ClassSubjectUserData>[];
 
     for (int index = 0; index < totalCount; index ++) {
       int randomIndex = range.nextInt(classSubjectCount);
-      ClassSubject cs = this.classSubjectList[randomIndex];
+      ClassSubject cs = this._classSubjectList[randomIndex];
       ClassSubjectUserData userData = ClassSubjectUserData(cs);
       if (index % 10 == 0) {
-        userData.isPayAttention = true;
+        userData.event = "考试";
       }
       if (index == 11) {
-        userData.tipList = ["小茗同学请假"];
+        userData.tipList = ["请假"];
+        userData.payAttentionList = ["安迪同学去参加物理竞赛了", "李连杰去奥斯卡领奖了"];
+      }
+
+      if (index == 22) {
+        userData.tipList = ["誓师大会"];
       }
 
       if (index == 23) {
         userData.tipList = ["小红同学请假"];
+        userData.payAttentionList = ["安迪同学去参加化学竞赛了", "李连杰去奥斯卡领奖了"];
       }
 
       if (index == 55) {
@@ -189,9 +195,11 @@ a;
 
 class ClassSubjectUserData {
   ClassSubject classSubject;
-  bool isPayAttention = false;
+  List<String>? payAttentionList;
   List<String>? tipList;
-
+  String event = "";
+  bool isHighlighted = false;
+  
   ClassSubjectUserData(this.classSubject);
 }
 
