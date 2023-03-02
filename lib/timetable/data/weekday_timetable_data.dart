@@ -61,9 +61,9 @@ class WeekdayTimeTableData {
     afternoonLessonList = afternoonList;
     eveningLessonList = eveningList;
 
-    lessonList.addAll(get_lesson_times(defaultMorningBeginTime, lessonDuratiion, morningLessonCount));
-    lessonList.addAll(get_lesson_times(defaultAfternoonBeginTime, lessonDuratiion, afternoonLessonCount));
-    lessonList.addAll(get_lesson_times(defaultEveningBeginTime, lessonDuratiion, eveningLessonCount));
+    lessonList.addAll(morningList);
+    lessonList.addAll(afternoonList);
+    lessonList.addAll(eveningList);
 
     return lessonList;
   }
@@ -80,17 +80,11 @@ class WeekdayTimeTableData {
     for (int index = 0; index < count; index ++) {
       DateTime endDateTime = beginDateTime + duration.minutes;
 
-      // List<String> beginhms = beginDateTime.toString().split(" ").last.split(":");
-      // List<String> endhms = endDateTime.toString().split(" ").last.split(":");
-      // String beginDateTimeText = beginDateTime.hour.toString() + ":" + beginDateTime.minute.toString();
-      // String endDateTimeText = endDateTime.hour.toString() + ":" + endDateTime.minute.toString();
-
       String beginDateTimeText = beginDateTime.toString().split(" ").last.substring(0, 5);
       String endDateTimeText = endDateTime.toString().split(" ").last.substring(0, 5);
       Lesson lesson = Lesson(beginDateTimeText, endDateTimeText);
 
       lessonList.add(lesson);
-
       beginDateTime = endDateTime + 10.minutes;
     }
 
@@ -183,10 +177,11 @@ class WeekdayTimeTableData {
 
       list.add(userData);
     }
-
+    allCSUserDataList = list;
     return list;
   }
 
+  List<ClassSubjectUserData> allCSUserDataList = <ClassSubjectUserData>[];
 }
 
 enum ClassSubjectExtension {

@@ -5,6 +5,7 @@ import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:smart_education/timetable/wt_contentItem.dart';
+import 'package:smart_education/timetable/data/timetable_data_manager.dart';
 
 class WeekdayTimeTable extends StatefulWidget {
   const WeekdayTimeTable({Key? key}) : super(key: key);
@@ -24,24 +25,29 @@ class WeekdayTimeTableState extends State {
   // 装填左边课节和时间的数据
   List<Lesson>? lessonList;
   // 装填这周每节课数据
-  List<ClassSubject>? classSubjectList;
-  // 装填这周每节课数据
   List<ClassSubjectUserData>? csUserDataList;
 
-  WeekdayTimeTableData timeTableData = WeekdayTimeTableData();
+  
 
+  TimeTableDataManager _dataManager = TimeTableDataManager.dataManager;
+  late WeekdayTimeTableData timeTableData;
   @override
   void initState() {
     super.initState();
 
-    List<ClassSubject> csList = timeTableData.get_weekday_classSubject_data();
-    List<Lesson> leList = timeTableData.get_today_total_lesson_times();
+    // List<ClassSubject> csList = timeTableData.get_weekday_classSubject_data();
+    // List<Lesson> leList = timeTableData.get_today_total_lesson_times();
+    // List<ClassSubjectUserData> csudList =
+    //     timeTableData.get_weekday_classSubject_userdata();
+
+    timeTableData = _dataManager.weekdayTimeTableData;
+    List<Lesson> leList = _dataManager.currentDayLessonTimeList;
     List<ClassSubjectUserData> csudList =
-        timeTableData.get_weekday_classSubject_userdata();
+        _dataManager.currentDayList;
+
     setState(() {
-      classSubjectList = csList;
       lessonList = leList;
-      csUserDataList = csudList;
+      csUserDataList = _dataManager.weekdayTimeTableData.allCSUserDataList;
     });
   }
 
