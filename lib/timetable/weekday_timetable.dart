@@ -27,8 +27,6 @@ class WeekdayTimeTableState extends State {
   // 装填这周每节课数据
   List<ClassSubjectUserData>? csUserDataList;
 
-  
-
   TimeTableDataManager _dataManager = TimeTableDataManager.dataManager;
   late WeekdayTimeTableData timeTableData;
   @override
@@ -42,8 +40,7 @@ class WeekdayTimeTableState extends State {
 
     timeTableData = _dataManager.weekdayTimeTableData;
     List<Lesson> leList = _dataManager.currentDayLessonTimeList;
-    List<ClassSubjectUserData> csudList =
-        _dataManager.currentDayList;
+    List<ClassSubjectUserData> csudList = _dataManager.currentDayList;
 
     setState(() {
       lessonList = leList;
@@ -73,20 +70,24 @@ class WeekdayTimeTableState extends State {
   }
 
   PopupMenuButton _popupMenuButton() {
-    return PopupMenuButton(
-      itemBuilder: (context) {
-        return timeTableData.subjects.map((e) => PopupMenuItem(child: Text(e),
-        onTap: () {
-          if (csUserDataList != null) {
-            setState(() {
-              List<ClassSubjectUserData> list = csUserDataList!;
-            for (int index = 0; index < list.length; index ++) {
-              ClassSubjectUserData data = list[index];
-              data.isHighlighted = data.classSubject.subject.name == e;
-            }});
-          }
-        },)).toList();
-        });
+    return PopupMenuButton(itemBuilder: (context) {
+      return timeTableData.subjects
+          .map((e) => PopupMenuItem(
+                child: Text(e),
+                onTap: () {
+                  if (csUserDataList != null) {
+                    setState(() {
+                      List<ClassSubjectUserData> list = csUserDataList!;
+                      for (int index = 0; index < list.length; index++) {
+                        ClassSubjectUserData data = list[index];
+                        data.isHighlighted = data.classSubject.subject.name == e;
+                      }
+                    });
+                  }
+                },
+              ))
+          .toList();
+    });
   }
 
   Widget weekdayHeader() {
@@ -119,14 +120,12 @@ class WeekdayTimeTableState extends State {
   Widget timeView() {
     return Column(
       children: [
-        setup_time_itemsView(
-            timeTableData.morningLessonCount, timeTableData.morningLessonList!),
-        const Padding(padding: EdgeInsets.only(top: 0)),
-        setup_time_itemsView(timeTableData.afternoonLessonCount,
-            timeTableData.afternoonLessonList!),
+        setup_time_itemsView(timeTableData.morningLessonCount, timeTableData.morningLessonList!),
         const Padding(padding: EdgeInsets.only(top: 0)),
         setup_time_itemsView(
-            timeTableData.eveningLessonCount, timeTableData.eveningLessonList!),
+            timeTableData.afternoonLessonCount, timeTableData.afternoonLessonList!),
+        const Padding(padding: EdgeInsets.only(top: 0)),
+        setup_time_itemsView(timeTableData.eveningLessonCount, timeTableData.eveningLessonList!),
       ],
     );
   }
@@ -140,8 +139,7 @@ class WeekdayTimeTableState extends State {
         const Padding(padding: EdgeInsets.only(top: 0)),
         setup_classSubjects_itemsView(21, csUserDataList!.sublist(28, 28 + 21)),
         const Padding(padding: EdgeInsets.only(top: 0)),
-        setup_classSubjects_itemsView(
-            21, csUserDataList!.sublist(28 + 21, 28 + 21 + 21)),
+        setup_classSubjects_itemsView(21, csUserDataList!.sublist(28 + 21, 28 + 21 + 21)),
       ],
     );
   }
@@ -178,8 +176,7 @@ class WeekdayTimeTableState extends State {
         });
   }
 
-  Widget setup_classSubjects_itemsView(
-      int itemCount, List<ClassSubjectUserData> csUserDataList) {
+  Widget setup_classSubjects_itemsView(int itemCount, List<ClassSubjectUserData> csUserDataList) {
     return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -190,18 +187,12 @@ class WeekdayTimeTableState extends State {
           return GestureDetector(
             onTap: () {
               String tipText = "";
-              List<String>? tipList = csUserDataList[index].tipList;
-              if (tipList != null) {
-                for (int i = 0; i < tipList.length; i++) {
-                  tipText = tipText + "\n" + tipList[i];
-                }
-              }
 
-              List<String>? payAttentionList =
+              List<ClassSubjectPayAttention>? payAttentionList =
                   csUserDataList[index].payAttentionList;
               if (payAttentionList != null) {
                 for (int i = 0; i < payAttentionList.length; i++) {
-                  tipText = tipText + "\n" + payAttentionList[i];
+                  tipText = tipText + "\n" + payAttentionList[i].message;
                 }
               }
               if (tipText.isNotEmpty) {
@@ -224,8 +215,7 @@ class WeekdayTimeTableState extends State {
 class WeekdayTimeTableUX {
   static double headerHeight = 40;
   static double timeAreaWidth = 40;
-  static double timeAreaHeight =
-      Screen.height - Screen.navigatorBar_height - headerHeight - 12;
+  static double timeAreaHeight = Screen.height - Screen.navigatorBar_height - headerHeight - 12;
   static double timeAreaSubHeight = 100;
   static double contentAreaWidth = Screen.width - timeAreaWidth;
   static double contentAreaHeight = timeAreaHeight;

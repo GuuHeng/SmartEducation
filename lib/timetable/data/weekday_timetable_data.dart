@@ -2,33 +2,9 @@ import 'dart:math';
 import 'package:time/time.dart';
 
 class WeekdayTimeTableData {
-  List<String> subjects = [
-    "语文",
-    "数学",
-    "外语",
-    "物理",
-    "化学",
-    "生物",
-    "地理",
-    "政治",
-    "历史",
-    "体育",
-    "音乐"
-  ];
+  List<String> subjects = ["语文", "数学", "外语", "物理", "化学", "生物", "地理", "政治", "历史", "体育", "音乐"];
 
-  List<String> teachers = [
-    "赵一",
-    "钱二",
-    "张三",
-    "李四",
-    "王五",
-    "孙六",
-    "李七",
-    "周八",
-    "吴九",
-    "郑十",
-    "默默"
-  ];
+  List<String> teachers = ["赵一", "钱二", "张三", "李四", "王五", "孙六", "李七", "周八", "吴九", "郑十", "默默"];
 
   // 一天上课的默认起始时间
   String defaultMorningBeginTime = "08:00";
@@ -50,12 +26,14 @@ class WeekdayTimeTableData {
 
   // 所有科目的上课时间
   List<Lesson> get_today_total_lesson_times() {
-
     List<Lesson> lessonList = <Lesson>[];
 
-    List<Lesson> morningList = get_lesson_times(defaultMorningBeginTime, lessonDuratiion, morningLessonCount);
-    List<Lesson> afternoonList = get_lesson_times(defaultAfternoonBeginTime, lessonDuratiion, afternoonLessonCount);
-    List<Lesson> eveningList = get_lesson_times(defaultEveningBeginTime, lessonDuratiion, eveningLessonCount);
+    List<Lesson> morningList =
+        get_lesson_times(defaultMorningBeginTime, lessonDuratiion, morningLessonCount);
+    List<Lesson> afternoonList =
+        get_lesson_times(defaultAfternoonBeginTime, lessonDuratiion, afternoonLessonCount);
+    List<Lesson> eveningList =
+        get_lesson_times(defaultEveningBeginTime, lessonDuratiion, eveningLessonCount);
 
     morningLessonList = morningList;
     afternoonLessonList = afternoonList;
@@ -75,9 +53,10 @@ class WeekdayTimeTableData {
     DateTime nowTime = DateTime.now();
     List<String> hmList = beginHM.split(":");
 
-    DateTime beginDateTime = DateTime(nowTime.year, nowTime.month, nowTime.day, int.parse(hmList.first), int.parse(hmList.last), 0);
+    DateTime beginDateTime = DateTime(nowTime.year, nowTime.month, nowTime.day,
+        int.parse(hmList.first), int.parse(hmList.last), 0);
 
-    for (int index = 0; index < count; index ++) {
+    for (int index = 0; index < count; index++) {
       DateTime endDateTime = beginDateTime + duration.minutes;
 
       String beginDateTimeText = beginDateTime.toString().split(" ").last.substring(0, 5);
@@ -90,7 +69,6 @@ class WeekdayTimeTableData {
 
     return lessonList;
   }
-
 
   // List<Teacher> _teacherList = <Teacher>[];
   // List<Subject> _subjectList = <Subject>[];
@@ -121,7 +99,6 @@ class WeekdayTimeTableData {
 
   // 假设七天都有课，每天上午四节课，下午三节课，晚上三节课，总共十节课；
   List<ClassSubject> get_weekday_classSubject_data() {
-
     this._classSubjectList = get_classSubject_data();
 
     final int totalCount = 70;
@@ -130,7 +107,7 @@ class WeekdayTimeTableData {
     var range = Random();
     var list = <ClassSubject>[];
 
-    for (int index = 0; index < totalCount; index ++) {
+    for (int index = 0; index < totalCount; index++) {
       int randomIndex = range.nextInt(classSubjectCount);
       ClassSubject cs = this._classSubjectList[randomIndex];
       list.add(cs);
@@ -141,7 +118,6 @@ class WeekdayTimeTableData {
 
   // 假设七天都有课，每天上午四节课，下午三节课，晚上三节课，总共十节课；
   List<ClassSubjectUserData> get_weekday_classSubject_userdata() {
-
     this._classSubjectList = get_classSubject_data();
 
     final int totalCount = 70;
@@ -150,7 +126,7 @@ class WeekdayTimeTableData {
     var range = Random();
     var list = <ClassSubjectUserData>[];
 
-    for (int index = 0; index < totalCount; index ++) {
+    for (int index = 0; index < totalCount; index++) {
       int randomIndex = range.nextInt(classSubjectCount);
       ClassSubject cs = this._classSubjectList[randomIndex];
       ClassSubjectUserData userData = ClassSubjectUserData(cs);
@@ -158,21 +134,22 @@ class WeekdayTimeTableData {
         userData.event = "考试";
       }
       if (index == 11) {
-        userData.tipList = ["请假"];
-        userData.payAttentionList = ["安迪同学去参加物理竞赛了", "李连杰去奥斯卡领奖了"];
+        userData.payAttentionList = [ClassSubjectPayAttention("大扫除", null)];
       }
 
       if (index == 22) {
-        userData.tipList = ["誓师大会"];
+        userData.payAttentionList = [
+          ClassSubjectPayAttention("请假了", Student("id", "安迪")),
+          ClassSubjectPayAttention("请假了", Student("id", "李白"))
+        ];
       }
 
-      if (index == 23) {
-        userData.tipList = ["小红同学请假"];
-        userData.payAttentionList = ["安迪同学去参加化学竞赛了", "李连杰去奥斯卡领奖了"];
+      if (index % 7 == 5) {
+        userData.payAttentionList = [ClassSubjectPayAttention("校运动会", null)];
       }
 
       if (index == 55) {
-        userData.tipList = ["小红同学请假", "小李同学精神低迷，需要注意"];
+        userData.payAttentionList = [ClassSubjectPayAttention("参加作文比赛去了", Student("id", "李白"))];
       }
 
       list.add(userData);
@@ -184,18 +161,22 @@ class WeekdayTimeTableData {
   List<ClassSubjectUserData> allCSUserDataList = <ClassSubjectUserData>[];
 }
 
-enum ClassSubjectExtension {
-a;
-}
-
 class ClassSubjectUserData {
   ClassSubject classSubject;
-  List<String>? payAttentionList;
-  List<String>? tipList;
+  List<ClassSubjectPayAttention>? payAttentionList;
   String event = "";
   bool isHighlighted = false;
-  
+
   ClassSubjectUserData(this.classSubject);
+}
+
+class ClassSubjectPayAttention {
+  // 需要关注的目标，可以无目标
+  Student? student;
+  // 需要注意什么事
+  String message = "";
+
+  ClassSubjectPayAttention(this.message, this.student);
 }
 
 class ClassSubject {
@@ -220,6 +201,14 @@ class Teacher {
   Subject? subject;
 
   Teacher(this.id, this.name, this.subject);
+}
+
+// 学生
+class Student {
+  String id;
+  String name;
+
+  Student(this.id, this.name);
 }
 
 class Lesson {

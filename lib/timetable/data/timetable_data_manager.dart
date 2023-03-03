@@ -9,14 +9,13 @@ class TimeTableDataManager {
   List<ClassSubjectUserData> currentDayList = <ClassSubjectUserData>[];
   List<Lesson> currentDayLessonTimeList = <Lesson>[];
 
-
   void get_today_timetable_data() {
     List<ClassSubjectUserData> list = weekdayTimeTableData.get_weekday_classSubject_userdata();
 
     List<ClassSubjectUserData> todayList = <ClassSubjectUserData>[];
 
-    for (int index = 0; index < list.length; index ++) {
-      if ([0, 7, 14, 21, 28, 35, 42, 49, 56, 63].contains(index)) {
+    for (int index = 0; index < list.length; index++) {
+      if (index % 7 == 1) {
         todayList.add(list[index]);
       }
     }
@@ -24,6 +23,5 @@ class TimeTableDataManager {
     currentDayList = todayList;
 
     currentDayLessonTimeList = weekdayTimeTableData.get_today_total_lesson_times();
-
   }
 }

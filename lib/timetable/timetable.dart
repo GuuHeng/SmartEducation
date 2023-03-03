@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
 import 'timetable_settings.dart';
 import 'weekday_timetable.dart';
 import 'package:smart_education/timetable/data/timetable_data_manager.dart';
@@ -18,8 +19,8 @@ class _TimeTable extends StatefulWidget {
 }
 
 class _TimeTableState extends State<_TimeTable> {
-
-
+  // 时间区域的宽度
+  final double timeAreaWidth = 50;
   TimeTableDataManager _dataManager = TimeTableDataManager.dataManager;
 
   @override
@@ -28,7 +29,6 @@ class _TimeTableState extends State<_TimeTable> {
     super.initState();
 
     _dataManager.get_today_timetable_data();
-
   }
 
   @override
@@ -37,11 +37,6 @@ class _TimeTableState extends State<_TimeTable> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          // leading: IconButton(
-          //     onPressed: () {
-          //       openSetting();
-          //     },
-          //     icon: Icon(Icons.menu)),
           title: Text("今日课表"),
           actions: <Widget>[
             IconButton(
@@ -64,7 +59,6 @@ class _TimeTableState extends State<_TimeTable> {
     );
   }
 
-  final double timeAreaWidth = 50;
   Widget _setupListRow(int index) {
     return Container(
         height: 120,
@@ -75,7 +69,10 @@ class _TimeTableState extends State<_TimeTable> {
               child: Container(
                 color: Color.fromARGB(7, 0, 0, 0),
                 width: timeAreaWidth,
-                child: Center(child: Text(_dataManager.currentDayLessonTimeList[index].beginTime + "~" + _dataManager.currentDayLessonTimeList[index].endTime)),
+                child: Center(
+                    child: Text(_dataManager.currentDayLessonTimeList[index].beginTime +
+                        "~" +
+                        _dataManager.currentDayLessonTimeList[index].endTime)),
               ),
             ),
             Expanded(child: _setupSubject(index))
@@ -83,31 +80,45 @@ class _TimeTableState extends State<_TimeTable> {
         ));
   }
 
-  final String key0 = "@张老师";
-  final String tipText = "张三请假";
   Widget _setupSubject(int index) {
+    ClassSubjectUserData data = _dataManager.currentDayList[index];
+    List<ClassSubjectPayAttention>? _payAttentionList;
+    if (data.payAttentionList != null) {
+      _payAttentionList = data.payAttentionList!;
+    }
+
     return Stack(
       children: [
         Center(
             child: Text(_dataManager.currentDayList[index].classSubject.subject.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 30, color: Colors.grey))),
-        Positioned(
-          top: 10,
-          left: 10,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.orange , borderRadius: BorderRadius.all(Radius.circular(4))), 
-              child: RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                   text: key0, style: TextStyle(color: Colors.red, fontSize: 12)
-                  ),
-                  TextSpan(
-                    text: tipText,
-                    style: TextStyle(color: Colors.blue, fontSize: 12)),
-                    ]))))
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 30, color: Colors.grey))),
+        _payAttentionView(_payAttentionList)
       ],
     );
+  }
+
+  Widget _payAttentionView(List<ClassSubjectPayAttention>? payAttentionList) {
+    if (payAttentionList == null || payAttentionList.isEmpty) {
+      return SizedBox();
+    }
+
+    List<ClassSubjectPayAttention> paList = payAttentionList;
+    return Positioned(
+        top: 10,
+        left: 10,
+        child: DecoratedBox(
+            decoration: BoxDecoration(
+                color: Colors.blue, borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: RichText(
+                text: TextSpan(children: [
+              paList.first.student != null
+                  ? TextSpan(
+                      text: paList.first.student!.name,
+                      style: TextStyle(color: Colors.red, fontSize: 12))
+                  : TextSpan(),
+              TextSpan(
+                  text: paList.first.message, style: TextStyle(color: Colors.white, fontSize: 12))
+            ]))));
   }
 
   void switchTimeTable(BuildContext context) {
