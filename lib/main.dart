@@ -6,8 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
   runApp(MaterialApp(
-    // home: SmartEducation(),
-    initialRoute: "timetable",
+    home: SmartEducation(),
     routes: {
       'home': (context) => SmartEducation(),
       'timetable': (context) => TimeTable(),
