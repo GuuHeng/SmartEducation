@@ -12,7 +12,7 @@ class WeekdayTimeTableData {
   String defaultEveningBeginTime = "18:00";
 
   // 一节课的时长，默认是40分钟
-  int lessonDuratiion = 40;
+  int lessonDuratiion = 45;
   int morningLessonCount = 4;
   int afternoonLessonCount = 3;
   int eveningLessonCount = 3;

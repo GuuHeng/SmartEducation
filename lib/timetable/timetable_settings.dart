@@ -27,26 +27,33 @@ class _TimeTableSettingsState extends State<_TimeTableSettings> {
 
   Widget settingsDrawer() {
     return Drawer(
-      child: Stack(
-        children: [
-          Expanded(
-            child:
-                // Image(image: AssetImage(""));
-                Icon(Icons.abc),
+        child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        UserAccountsDrawerHeader(
+          accountName: Text(
+            "离散",
+            style: TextStyle(fontSize: 20),
           ),
-          Expanded(
-              child: ListView(
-            children: [
-              ListTile(
-                leading: Icon(Icons.local_activity),
-                title: Text("课表管理"),
-              ),
-              Divider(),
-              ListTile(leading: Icon(Icons.manage_history), title: Text("更多管理"))
-            ],
-          ))
-        ],
-      ),
-    );
+          accountEmail: Text("高级教师"),
+          currentAccountPicture: CircleAvatar(
+            child: Icon(Icons.man),
+          ),
+          onDetailsPressed: () {
+            
+          },
+          decoration: BoxDecoration(
+              color: Colors.blue,
+              image: DecorationImage(
+                  image: AssetImage('assets/images/school.png'), fit: BoxFit.cover)),
+        ),
+        ListTile(
+          leading: Icon(Icons.local_activity),
+          title: Text("课表管理"),
+        ),
+        Divider(),
+        ListTile(leading: Icon(Icons.manage_history), title: Text("更多管理"))
+      ],
+    ));
   }
 }
