@@ -4,6 +4,8 @@ import 'package:smart_education/pages/mine_page.dart';
 import 'package:smart_education/timetable/timetable.dart';
 import 'package:smart_education/util/constant.dart';
 
+import '../timetable/timetable_settings.dart';
+
 class SmartEducation extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -13,11 +15,13 @@ class SmartEducation extends StatefulWidget {
 
 class _SmartEducationState extends State<SmartEducation> with TickerProviderStateMixin {
   final _tabItemNameList = [
-    _TabItem("今", "assets/images/tab_today_unselected.png", "assets/images/tab_today_selected.png"),
+    _TabItem(
+        "首页", "assets/images/tab_today_unselected.png", "assets/images/tab_today_selected.png"),
     _TabItem("我的", "assets/images/tab_me_unselected.png", "assets/images/tab_me_selected.png")
   ];
 
-  final _pageList = [TimeTable(), MinePage()];
+  // final _pageList = [TimeTable(), MinePage()];
+  late List<Widget> _pageList;
   late List<BottomNavigationBarItem> _tabItemList;
 
   int _selectedIndex = 0;
@@ -25,6 +29,13 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
   @override
   void initState() {
     super.initState();
+
+    TimeTable _timetablePage = TimeTable();
+    _timetablePage.onTapLeadingCallback = () {
+      Scaffold.of(context).openDrawer();
+    };
+
+    _pageList = [_timetablePage, MinePage()];
 
     _tabItemList = _tabItemNameList
         .map((e) => BottomNavigationBarItem(
@@ -37,6 +48,8 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      // drawer: TimeTableSettings(),
       body: _pageList[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: _tabItemList,

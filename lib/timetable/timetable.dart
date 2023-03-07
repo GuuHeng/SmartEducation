@@ -4,21 +4,16 @@ import 'timetable_settings.dart';
 import 'weekday_timetable.dart';
 import 'package:smart_education/timetable/data/timetable_data_manager.dart';
 
-class TimeTable extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return _TimeTable();
-  }
-}
+class TimeTable extends StatefulWidget {
+  VoidCallback? onTapLeadingCallback;
 
-class _TimeTable extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _TimeTableState();
   }
 }
 
-class _TimeTableState extends State<_TimeTable> {
+class _TimeTableState extends State<TimeTable> {
   // 时间区域的宽度
   final double timeAreaWidth = 50;
   TimeTableDataManager _dataManager = TimeTableDataManager.dataManager;
@@ -33,29 +28,31 @@ class _TimeTableState extends State<_TimeTable> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("今日课表"),
-          actions: <Widget>[
-            IconButton(
-                onPressed: () {
-                  switchTimeTable(context);
-                },
-                icon: Text("周")),
-          ],
-        ),
-        body: ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return _setupListRow(index);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("今日课表"),
+        leading: IconButton(
+            onPressed: () {
+              widget.onTapLeadingCallback!();
             },
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider(height: 1, color: Colors.black12);
-            },
-            itemCount: 10),
-        drawer: TimeTableSettings(),
+            icon: Icon(Icons.menu)),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                switchTimeTable(context);
+              },
+              icon: Text("周")),
+        ],
       ),
+      body: ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            return _setupListRow(index);
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider(height: 1, color: Colors.black12);
+          },
+          itemCount: 10),
+      // drawer: TimeTableSettings(),
     );
   }
 

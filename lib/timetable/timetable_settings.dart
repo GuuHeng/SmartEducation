@@ -39,9 +39,7 @@ class _TimeTableSettingsState extends State<_TimeTableSettings> {
           currentAccountPicture: CircleAvatar(
             child: Icon(Icons.man),
           ),
-          onDetailsPressed: () {
-            
-          },
+          onDetailsPressed: () {},
           decoration: BoxDecoration(
               color: Colors.blue,
               image: DecorationImage(
