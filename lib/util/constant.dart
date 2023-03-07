@@ -9,4 +9,6 @@ class AppColor {
 
   static int tab_item_unselected_color = 0x2c2c2c;
   static int tab_item_selected_color = 0x334de5;
+
+  static int list_separated_color = 0xe5e5e5;
 }

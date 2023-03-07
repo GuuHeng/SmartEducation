@@ -13,6 +13,9 @@ class SmartEducation extends StatefulWidget {
   }
 }
 
+// 因为使用的是tabbar->[page-nav],page自己的appbar中开启drawer无法覆盖tabbar，改用事件传递到这里去开启drawer，需要设置全局Scaffold;
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
 class _SmartEducationState extends State<SmartEducation> with TickerProviderStateMixin {
   final _tabItemNameList = [
     _TabItem(
@@ -32,7 +35,7 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
 
     TimeTable _timetablePage = TimeTable();
     _timetablePage.onTapLeadingCallback = () {
-      Scaffold.of(context).openDrawer();
+      _scaffoldKey.currentState!.openDrawer();
     };
 
     _pageList = [_timetablePage, MinePage()];
@@ -48,8 +51,9 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      // drawer: TimeTableSettings(),
+      key: _scaffoldKey,
+      // appBar: AppBar(),
+      drawer: TimeTableSettings(),
       body: _pageList[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: _tabItemList,
