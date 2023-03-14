@@ -10,7 +10,7 @@ class UserCenter {
 
   factory UserCenter.fromJson(Map<String, dynamic> json) => _$UserCenterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserCenter(this);
+  Map<String, dynamic> toJson() => _$UserCenterToJson(this);
 }
 
 @JsonSerializable()
@@ -27,7 +27,7 @@ class LoginUser {
 
   factory LoginUser.fromJson(Map<String, dynamic> json) => _$LoginUserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoginUser(this);
+  Map<String, dynamic> toJson() => _$LoginUserToJson(this);
 }
 
 enum UserPosition {

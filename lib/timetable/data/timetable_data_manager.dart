@@ -1,5 +1,6 @@
 import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
 import 'package:smart_education/timetable/weekday_timetable.dart';
+import 'package:smart_education/models/subject_model.dart';
 
 class TimeTableDataManager {
   static final TimeTableDataManager dataManager = TimeTableDataManager();

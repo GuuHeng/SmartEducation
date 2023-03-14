@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
+import 'package:smart_education/models/subject_model.dart';
+import 'package:smart_education/util/store/dbmanager.dart';
 
 import '../util/constant.dart';
 
@@ -13,21 +14,25 @@ class SubjectManagementPage extends StatefulWidget {
 
 class _SubjectManagementPageState extends State<SubjectManagementPage> {
   List<Subject> subjectList = <Subject>[];
-
-  
+  DatabaseManager _databaseManager = DatabaseManager();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-
-
+    _getSubjectsData();
   }
 
-  _getSubjectsData() {
-    
-
+  _getSubjectsData() async {
+    if (_databaseManager.db?.isOpen == true) {
+      List<Map<String, Object?>>? list = await _databaseManager.query();
+      if (list != null && list.isNotEmpty) {
+        list.map((e) {
+          subjectList.add(Subject.fromJson(e));
+        }).toList();
+      }
+    }
   }
 
   @override
@@ -37,7 +42,11 @@ class _SubjectManagementPageState extends State<SubjectManagementPage> {
         body: ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return Row(
-                children: [Icon(Icons.macro_off), Text("数学"), Icon(Icons.arrow_right)],
+                children: [
+                  Icon(Icons.macro_off),
+                  Text(subjectList[index].name),
+                  Icon(Icons.arrow_right)
+                ],
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -46,6 +55,6 @@ class _SubjectManagementPageState extends State<SubjectManagementPage> {
                 color: Color(AppColor.list_separated_color),
               );
             },
-            itemCount: 10));
+            itemCount: subjectList.length));
   }
 }

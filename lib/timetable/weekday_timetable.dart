@@ -6,6 +6,7 @@ import 'package:smart_education/util/device.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:smart_education/timetable/wt_contentItem.dart';
 import 'package:smart_education/timetable/data/timetable_data_manager.dart';
+import 'package:smart_education/models/subject_model.dart';
 
 class WeekdayTimeTable extends StatefulWidget {
   const WeekdayTimeTable({Key? key}) : super(key: key);

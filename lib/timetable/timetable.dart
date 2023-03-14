@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:smart_education/router.dart';
 import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
+import 'package:smart_education/util/store/dbmanager.dart';
 import 'timetable_settings.dart';
 import 'weekday_timetable.dart';
 import 'package:smart_education/timetable/data/timetable_data_manager.dart';
+import 'package:smart_education/models/subject_model.dart';
 
 class TimeTable extends StatefulWidget {
   VoidCallback? onTapLeadingCallback;
@@ -22,8 +25,15 @@ class _TimeTableState extends State<TimeTable> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    DatabaseManager().open("db_id");
     _dataManager.get_today_timetable_data();
+
+    List<Subject> subjects = <Subject>[];
+    for (int index = 0; index < _dataManager.weekdayTimeTableData.subjects.length; index++) {
+      Subject s = Subject(index.toString(), _dataManager.weekdayTimeTableData.subjects[index]);
+      subjects.add(s);
+    }
+    DatabaseManager().insert(subjects);
   }
 
   @override
@@ -120,7 +130,7 @@ class _TimeTableState extends State<TimeTable> {
 
   void switchTimeTable(BuildContext context) {
     setState(() {
-      Navigator.pushNamed(context, "weekday_timetable");
+      SERouter.push(context, SERouter.timetableWeekdayPage);
     });
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
+import 'package:smart_education/models/subject_model.dart';
 
 class WTContentItem extends StatefulWidget {
   ClassSubjectUserData csUserData;

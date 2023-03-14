@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:time/time.dart';
+import 'package:smart_education/models/subject_model.dart';
 
 class WeekdayTimeTableData {
   List<String> subjects = ["语文", "数学", "外语", "物理", "化学", "生物", "地理", "政治", "历史", "体育", "音乐"];
@@ -159,61 +160,4 @@ class WeekdayTimeTableData {
   }
 
   List<ClassSubjectUserData> allCSUserDataList = <ClassSubjectUserData>[];
-}
-
-class ClassSubjectUserData {
-  ClassSubject classSubject;
-  List<ClassSubjectPayAttention>? payAttentionList;
-  String event = "";
-  bool isHighlighted = false;
-
-  ClassSubjectUserData(this.classSubject);
-}
-
-class ClassSubjectPayAttention {
-  // 需要关注的目标，可以无目标
-  Student? student;
-  // 需要注意什么事
-  String message = "";
-
-  ClassSubjectPayAttention(this.message, this.student);
-}
-
-class ClassSubject {
-  Teacher teacher;
-  Subject subject;
-
-  ClassSubject(this.teacher, this.subject);
-}
-
-// 科目
-class Subject {
-  String id;
-  String name;
-
-  Subject(this.id, this.name);
-}
-
-// 上课老师
-class Teacher {
-  String? id;
-  String? name;
-  Subject? subject;
-
-  Teacher(this.id, this.name, this.subject);
-}
-
-// 学生
-class Student {
-  String id;
-  String name;
-
-  Student(this.id, this.name);
-}
-
-class Lesson {
-  String beginTime;
-  String endTime;
-
-  Lesson(this.beginTime, this.endTime);
 }
