@@ -11,6 +11,7 @@ class ClassSubjectUserData {
   ClassSubjectUserData(this.classSubject);
 }
 
+// 该节课的注意事项（人物、事件）
 class ClassSubjectPayAttention {
   // 需要关注的目标，可以无目标
   Student? student;
@@ -20,6 +21,7 @@ class ClassSubjectPayAttention {
   ClassSubjectPayAttention(this.message, this.student);
 }
 
+// 该节课的上课老师，上课科目
 class ClassSubject {
   Teacher teacher;
   Subject subject;
@@ -59,6 +61,7 @@ class Student {
   Student(this.id, this.name);
 }
 
+// 课堂时间
 class Lesson {
   String beginTime;
   String endTime;
