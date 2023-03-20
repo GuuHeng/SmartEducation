@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_education/models/subject_model.dart';
-import 'package:smart_education/util/store/dbmanager.dart';
+import 'package:smart_education/util/database/database_manager.dart';
 
-import '../util/constant.dart';
+import '../../util/constant.dart';
 
 class SubjectManagementPage extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _SubjectManagementPageState extends State<SubjectManagementPage> {
 
   _getSubjectsData() async {
     if (_databaseManager.db?.isOpen == true) {
-      List<Map<String, Object?>>? list = await _databaseManager.query();
+      List<Map<String, Object?>>? list = await _databaseManager.queryAllSubjects();
       if (list != null && list.isNotEmpty) {
         list.map((e) {
           subjectList.add(Subject.fromJson(e));

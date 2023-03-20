@@ -31,11 +31,15 @@ class DatabaseManager {
     String path = databasesPath + '/${databaseName}/${db_id}';
 
     try {
-      db = await openDatabase(path, version: 1, onCreate: (db, version) {
+      db = await openDatabase(path, version: 1, onCreate: (db, version) async {
         db.execute(createSubjectTableSQL());
         db.execute(createTeacherTableSQL());
+      }, onOpen: (db) async {
+        print('onOpen database');
       });
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future close() async {

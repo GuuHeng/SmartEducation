@@ -1,10 +1,8 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:smart_education/timetable/wt_contentItem.dart';
+import 'package:smart_education/pages/timetable/wt_contentItem.dart';
 import 'package:smart_education/timetable/data/timetable_data_manager.dart';
 import 'package:smart_education/models/subject_model.dart';
 

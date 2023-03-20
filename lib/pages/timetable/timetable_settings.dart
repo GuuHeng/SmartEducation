@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_education/router.dart';
 import 'package:smart_education/util/constant.dart';
 
-import '../main.dart';
-
 class TimeTableSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

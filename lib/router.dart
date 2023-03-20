@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/timetable/subject_management.dart';
-import 'package:smart_education/timetable/timetable.dart';
-import 'package:smart_education/timetable/timetable_management.dart';
-import 'package:smart_education/timetable/timetable_settings.dart';
-import 'package:smart_education/timetable/weekday_timetable.dart';
+import 'pages/timetable/subject_management.dart';
+import 'pages/timetable/timetable.dart';
+import 'pages/timetable/timetable_management.dart';
+import 'pages/timetable/timetable_settings.dart';
+import 'pages/timetable/weekday_timetable.dart';
 
 class SERouter {
   static const timetablePage = 'timetable/today';

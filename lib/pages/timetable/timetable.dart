@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/router.dart';
 import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
-import 'package:smart_education/util/store/dbmanager.dart';
+import 'package:smart_education/util/database/database_manager.dart';
 import 'timetable_settings.dart';
 import 'weekday_timetable.dart';
 import 'package:smart_education/timetable/data/timetable_data_manager.dart';
@@ -25,15 +25,17 @@ class _TimeTableState extends State<TimeTable> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    DatabaseManager().open("db_id");
-    _dataManager.get_today_timetable_data();
 
-    List<Subject> subjects = <Subject>[];
-    for (int index = 0; index < _dataManager.weekdayTimeTableData.subjects.length; index++) {
-      Subject s = Subject(index.toString(), _dataManager.weekdayTimeTableData.subjects[index]);
-      subjects.add(s);
-    }
-    DatabaseManager().insert(subjects);
+    Future.delayed(Duration(seconds: 3), () {
+      _dataManager.get_today_timetable_data();
+    });
+
+    // List<Subject> subjects = <Subject>[];
+    // for (int index = 0; index < _dataManager.weekdayTimeTableData.subjects.length; index++) {
+    //   Subject s = Subject(index.toString(), _dataManager.weekdayTimeTableData.subjects[index]);
+    //   subjects.add(s);
+    // }
+    // DatabaseManager().insertSubjects(subjects);
   }
 
   @override
@@ -77,9 +79,11 @@ class _TimeTableState extends State<TimeTable> {
                 color: Color.fromARGB(7, 0, 0, 0),
                 width: timeAreaWidth,
                 child: Center(
-                    child: Text(_dataManager.currentDayLessonTimeList[index].beginTime +
-                        "~" +
-                        _dataManager.currentDayLessonTimeList[index].endTime)),
+                    child: Text(_dataManager.currentDayLessonTimeList.isNotEmpty
+                        ? _dataManager.currentDayLessonTimeList[index].beginTime +
+                            "~" +
+                            _dataManager.currentDayLessonTimeList[index].endTime
+                        : '')),
               ),
             ),
             Expanded(child: _setupSubject(index))
@@ -88,6 +92,9 @@ class _TimeTableState extends State<TimeTable> {
   }
 
   Widget _setupSubject(int index) {
+    if (_dataManager.currentDayList.isEmpty) {
+      return Text('data');
+    }
     ClassSubjectUserData data = _dataManager.currentDayList[index];
     List<ClassSubjectPayAttention>? _payAttentionList;
     if (data.payAttentionList != null) {

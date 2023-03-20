@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/home/smart_education.dart';
 import 'package:smart_education/pages/mine_page.dart';
-import 'package:smart_education/timetable/timetable.dart';
+import 'package:smart_education/pages/timetable/timetable.dart';
 import 'package:smart_education/util/constant.dart';
 
-import '../timetable/timetable_settings.dart';
+import '../pages/timetable/timetable_settings.dart';
 
 class SmartEducation extends StatefulWidget {
   @override
