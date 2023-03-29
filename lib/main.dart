@@ -14,11 +14,11 @@ void main() {
   runApp(MaterialApp(
     home: Splash(),
     navigatorKey: global_key_navigator,
-    routes: {
-      SERouter.timetablePage: (context) => TimeTable(),
-      SERouter.timetableWeekdayPage: (context) => WeekdayTimeTable(),
-      SERouter.subjectManagementPage: (context) => SubjectManagementPage(),
-    },
+    // routes: {
+    //   SERouter.timetablePage: (context) => TimeTable(),
+    //   SERouter.timetableWeekdayPage: (context) => WeekdayTimeTable(),
+    //   SERouter.subjectManagementPage: (context) => SubjectManagementPage(),
+    // },
     builder: EasyLoading.init(),
     debugShowCheckedModeBanner: false,
   ));

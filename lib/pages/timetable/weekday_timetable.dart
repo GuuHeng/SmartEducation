@@ -26,7 +26,7 @@ class WeekdayTimeTableState extends State {
   // 装填这周每节课数据
   List<ClassSubjectUserData>? csUserDataList;
 
-  TimeTableDataManager _dataManager = TimeTableDataManager.dataManager;
+  TimeTableDataManager _dataManager = TimeTableDataManager();
   late WeekdayTimeTableData timeTableData;
   @override
   void initState() {

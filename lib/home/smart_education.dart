@@ -5,6 +5,7 @@ import 'package:smart_education/pages/timetable/timetable.dart';
 import 'package:smart_education/util/constant.dart';
 
 import '../pages/timetable/timetable_settings.dart';
+import '../util/database/database_manager.dart';
 
 class SmartEducation extends StatefulWidget {
   @override
@@ -46,6 +47,14 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
             activeIcon: Image.asset(e.activeIconName),
             label: e.title))
         .toList();
+  }
+
+  void initDatabase() {
+    // 打开数据库
+    DatabaseManager().open("db_id").then((value) {
+      // 装配课程表数据
+      // 1.从数据库先获取数据，如果没有数据再插入数据；
+    });
   }
 
   @override

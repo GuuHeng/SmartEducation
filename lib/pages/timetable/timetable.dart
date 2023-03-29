@@ -19,7 +19,7 @@ class TimeTable extends StatefulWidget {
 class _TimeTableState extends State<TimeTable> {
   // 时间区域的宽度
   final double timeAreaWidth = 50;
-  TimeTableDataManager _dataManager = TimeTableDataManager.dataManager;
+  TimeTableDataManager _dataManager = TimeTableDataManager();
 
   @override
   void initState() {

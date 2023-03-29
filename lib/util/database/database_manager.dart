@@ -10,10 +10,10 @@ const String teachers_table = "teachers";
 const String students_table = "students";
 
 class DatabaseManager {
+  static const databaseName = 'education.db';
+  Database? db;
   factory DatabaseManager() => _databaseManager();
-
   static DatabaseManager? _instance;
-
   DatabaseManager._() {}
 
   static DatabaseManager _databaseManager() {
@@ -23,10 +23,7 @@ class DatabaseManager {
     return _instance!;
   }
 
-  Database? db;
-  static const databaseName = 'education.db';
-
-  open(String db_id) async {
+  Future open(String db_id) async {
     var databasesPath = await getDatabasesPath();
     String path = databasesPath + '/${databaseName}/${db_id}';
 
@@ -158,6 +155,11 @@ extension SubjectDatabase on DatabaseManager {
         txn.rawDelete(deleteSQL, [id]);
       }
     });
+  }
+
+  Future deleteAllSubjects() async {
+    String deleteSQL = 'delete from ${subjects_table}';
+    await db?.delete(deleteSQL);
   }
 
   Future updateSubject(String subjectId, int color) async {
