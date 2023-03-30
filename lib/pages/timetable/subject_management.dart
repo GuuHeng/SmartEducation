@@ -32,7 +32,7 @@ class _SubjectManagementPageState extends State<SubjectManagementPage> {
             subjectList.add(e);
           }).toList();
           setState(() {});
-        }).then((value) {
+        }).whenComplete(() {
           EasyLoading.dismiss();
         });
       } else {
@@ -44,7 +44,7 @@ class _SubjectManagementPageState extends State<SubjectManagementPage> {
     }).catchError((e) {
       EasyLoading.dismiss();
     });
-
+    return;
     _getSubjectsData();
   }
 
