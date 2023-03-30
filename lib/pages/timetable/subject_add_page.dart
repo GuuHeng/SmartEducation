@@ -114,18 +114,23 @@ class SubjectAddPageState extends State<SubjectAddPage> {
                         itemCount: 2))
               ],
             )),
-            SizedBox(
-              // height: 100,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "完成",
-                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    fixedSize: MaterialStateProperty.all(Size(200, 40))),
-              ),
+            Stack(
+              children: [
+                Positioned(
+                  bottom: 50,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "完成",
+                      style:
+                          TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        fixedSize: MaterialStateProperty.all(Size(200, 40))),
+                  ),
+                )
+              ],
             )
           ],
         ));
