@@ -24,9 +24,14 @@ class SubjectAddPageState extends State<SubjectAddPage> {
             Expanded(
                 child: Column(
               children: [
-                Text(
-                  "基础信息",
-                  textAlign: TextAlign.left,
+                Container(
+                  color: Colors.blue,
+                  margin: EdgeInsets.only(left: 10),
+                  height: 20,
+                  child: Text(
+                    "基础信息",
+                    textAlign: TextAlign.left,
+                  ),
                 ),
                 Container(
                     decoration: BoxDecoration(
@@ -114,25 +119,35 @@ class SubjectAddPageState extends State<SubjectAddPage> {
                         itemCount: 2))
               ],
             )),
-            Stack(
-              children: [
-                Positioned(
-                  bottom: 50,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "完成",
-                      style:
-                          TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        fixedSize: MaterialStateProperty.all(Size(200, 40))),
+            Container(
+                height: isPaddingScreen() == true ? 90 : 60,
+                color: Colors.white,
+                child: SafeArea(
+                  child: Stack(
+                    children: [
+                      Positioned(
+                          left: 20,
+                          right: 20,
+                          bottom: 0,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              "完成",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                                fixedSize: MaterialStateProperty.all(Size.fromHeight(40))),
+                          ))
+                    ],
                   ),
-                )
-              ],
-            )
+                )),
           ],
         ));
+  }
+
+  bool isPaddingScreen() {
+    return MediaQuery.of(context).padding.bottom > 0;
   }
 }
