@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/pages/timetable/subject_add_page.dart';
+import 'pages/timetable/subject_add_editName_page.dart';
 import 'pages/timetable/subject_management.dart';
 import 'pages/timetable/timetable.dart';
 import 'pages/timetable/timetable_management.dart';
@@ -14,6 +15,7 @@ class SERouter {
   static const timetableManagementPage = 'timetable/management/timetable';
   static const subjectManagementPage = 'timetable/management/subject';
   static const subjectAddPage = 'timetable/management/subject/add';
+  static const subjectAddNamePage = 'timetable/management/subject/add/name';
 
   Widget _generatePage(String url, dynamic params) {
     switch (url) {
@@ -27,8 +29,8 @@ class SERouter {
         return TimetableManagementPage();
       case subjectManagementPage:
         return SubjectManagementPage();
-      case subjectAddPage:
-        return SubjectAddPage();
+      case subjectAddNamePage:
+        return SubjectAddNamePage();
     }
     return Scaffold();
   }

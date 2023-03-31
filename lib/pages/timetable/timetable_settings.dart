@@ -22,9 +22,9 @@ class _TimeTableSettingsState extends State<_TimeTableSettings> {
   late List<ListTile> _menusItemList;
 
   List<_SettingItem> menusList = [
-    _SettingItem("课表管理", "", SERouter.timetableManagementPage),
+    // _SettingItem("课表管理", "", SERouter.timetableManagementPage),
     _SettingItem("科目管理", "", SERouter.subjectManagementPage),
-    _SettingItem("更多管理", "", SERouter.timetableManagementPage)
+    // _SettingItem("更多管理", "", SERouter.timetableManagementPage)
   ];
 
   @override
