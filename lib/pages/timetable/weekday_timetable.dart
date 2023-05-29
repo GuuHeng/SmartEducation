@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_education/router.dart';
 import 'package:smart_education/timetable/data/weekday_timetable_data.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -185,18 +186,20 @@ class WeekdayTimeTableState extends State {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
-              String tipText = "";
+              // String tipText = "";
 
-              List<ClassSubjectPayAttention>? payAttentionList =
-                  csUserDataList[index].payAttentionList;
-              if (payAttentionList != null) {
-                for (int i = 0; i < payAttentionList.length; i++) {
-                  tipText = tipText + "\n" + payAttentionList[i].message;
-                }
-              }
-              if (tipText.isNotEmpty) {
-                EasyLoading.showToast(tipText);
-              }
+              // List<ClassSubjectPayAttention>? payAttentionList =
+              //     csUserDataList[index].payAttentionList;
+              // if (payAttentionList != null) {
+              //   for (int i = 0; i < payAttentionList.length; i++) {
+              //     tipText = tipText + "\n" + payAttentionList[i].message;
+              //   }
+              // }
+              // if (tipText.isNotEmpty) {
+              //   EasyLoading.showToast(tipText);
+              // }
+              final subjectClassId = '11';
+              SERouter.pushParams(context, SERouter.subjectClassDetailPage, subjectClassId);
             },
             child: Container(
                 decoration: const BoxDecoration(

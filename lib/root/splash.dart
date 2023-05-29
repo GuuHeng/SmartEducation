@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/home/smart_education.dart';
+import 'package:smart_education/root/smart_education.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:sqflite/sqflite.dart';
 import '../util/database/database_manager.dart';

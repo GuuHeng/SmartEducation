@@ -6,6 +6,8 @@ import 'pages/timetable/timetable.dart';
 import 'pages/timetable/timetable_management.dart';
 import 'pages/timetable/timetable_settings.dart';
 import 'pages/timetable/weekday_timetable.dart';
+import 'pages/timetable/subject_log/subject_class_detail.dart';
+import 'pages/class/students_page.dart';
 
 class SERouter {
   static const timetablePage = 'timetable/today';
@@ -16,7 +18,8 @@ class SERouter {
   static const subjectManagementPage = 'timetable/management/subject';
   static const subjectAddPage = 'timetable/management/subject/add';
   static const subjectAddNamePage = 'timetable/management/subject/add/name';
-
+  static const subjectClassDetailPage = 'timetable/subjectClass/detail'; // 该节课的详情
+  static const studentsPage = 'class/students';
   Widget _generatePage(String url, dynamic params) {
     switch (url) {
       case timetablePage:
@@ -33,6 +36,10 @@ class SERouter {
         return SubjectAddPage();
       case subjectAddNamePage:
         return SubjectAddNamePage();
+      case subjectClassDetailPage:
+        return SubjectClassDetaiPage(subjectClassId: params);
+      case studentsPage:
+        return StudentsPage();
     }
     return Scaffold();
   }

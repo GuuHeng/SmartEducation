@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/home/smart_education.dart';
+import 'package:smart_education/root/smart_education.dart';
+import 'package:smart_education/pages/class/class_page.dart';
 import 'package:smart_education/pages/mine_page.dart';
 import 'package:smart_education/pages/timetable/timetable.dart';
 import 'package:smart_education/util/constant.dart';
@@ -21,6 +22,8 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
   final _tabItemNameList = [
     _TabItem(
         "首页", "assets/images/tab_today_unselected.png", "assets/images/tab_today_selected.png"),
+    _TabItem(
+        "班级", "assets/images/tab_today_unselected.png", "assets/images/tab_today_selected.png"),
     _TabItem("我的", "assets/images/tab_me_unselected.png", "assets/images/tab_me_selected.png")
   ];
 
@@ -39,7 +42,7 @@ class _SmartEducationState extends State<SmartEducation> with TickerProviderStat
       _scaffoldKey.currentState!.openDrawer();
     };
 
-    _pageList = [_timetablePage, MinePage()];
+    _pageList = [_timetablePage, ClassPage(), MinePage()];
 
     _tabItemList = _tabItemNameList
         .map((e) => BottomNavigationBarItem(
