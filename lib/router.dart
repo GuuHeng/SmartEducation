@@ -29,6 +29,8 @@ class SERouter {
         return TimetableManagementPage();
       case subjectManagementPage:
         return SubjectManagementPage();
+      case subjectAddPage:
+        return SubjectAddPage();
       case subjectAddNamePage:
         return SubjectAddNamePage();
     }
