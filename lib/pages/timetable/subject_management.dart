@@ -77,7 +77,7 @@ class _SubjectManagementPageState extends State<SubjectManagementPage> {
                     Padding(
                       padding: EdgeInsets.all(20),
                       child: Icon(
-                        Icons.macro_off,
+                        Icons.mic,
                         color: Colors.red,
                       ),
                     ),

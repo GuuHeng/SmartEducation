@@ -67,13 +67,15 @@ class _TimeTableSettingsState extends State<_TimeTableSettings> {
                   decoration: BoxDecoration(
                       color: Colors.blue,
                       image: DecorationImage(
-                          image: AssetImage('assets/images/school.png'), fit: BoxFit.cover)),
+                          image: AssetImage('assets/images/school.png'),
+                          fit: BoxFit.cover)),
                 );
               } else {
                 for (int i = 0; i < _menusItemList.length; i++) {
                   return _menusItemList[index - 1];
                 }
               }
+              return Text("");
             },
             separatorBuilder: (BuildContext context, int index) => Divider(
                   height: 1,

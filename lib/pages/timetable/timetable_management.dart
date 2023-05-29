@@ -12,7 +12,7 @@ class _TimetableManagementPageState extends State<TimetableManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.separated(
+        /* body: ListView.separated(
             itemBuilder: (BuildContext context, int index) {},
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
@@ -20,6 +20,7 @@ class _TimetableManagementPageState extends State<TimetableManagementPage> {
                 color: Color(AppColor.list_separated_color),
               );
             },
-            itemCount: 10));
+            itemCount: 10) */
+        );
   }
 }

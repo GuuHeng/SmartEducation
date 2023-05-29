@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:smart_education/router.dart';
 
 class StudentsPage extends StatefulWidget {
   @override
@@ -14,8 +15,10 @@ class _StudentsState extends State<StudentsPage> {
     // TODO: implement initState
     super.initState();
 
-    String nameString = "酸辣粉就是浪费记录是京东福粒敬爱的会更好";
-    for (var i = 0; i < 50; i++) {}
+    /* String nameString = "酸辣粉就是浪费记录是京东福粒敬爱的会更好"; */
+    for (var i = 0; i < 50; i++) {
+      studentsList.add('张三丰');
+    }
   }
 
   @override
@@ -23,16 +26,25 @@ class _StudentsState extends State<StudentsPage> {
     return Scaffold(
       appBar: AppBar(title: Text("学生")),
       body: GridView.builder(
-          padding: EdgeInsets.all(10),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10),
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
+        padding: EdgeInsets.all(10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10),
+        itemBuilder: (BuildContext context, int index) {
+          String name = studentsList[index];
+          return GestureDetector(
+            child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)), color: Colors.blue[100]),
-              child: Center(child: Text("data")),
-            );
-          }),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: Colors.blue[100]),
+              child: Center(child: Text(name)),
+            ),
+            onTap: () {
+              SERouter.push(context, SERouter.studentDetailPage);
+            },
+          );
+        },
+        itemCount: studentsList.length,
+      ),
     );
   }
 }
