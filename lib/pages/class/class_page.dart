@@ -38,11 +38,16 @@ class _ClassState extends State<ClassPage> {
                       offset: Offset(0, 0),
                       blurRadius: 10,
                     )
-                  ]),
+                  ],
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/class_bg.png'), fit: BoxFit.cover)),
               child: Stack(
                 children: [
                   Center(
-                    child: Text(channel),
+                    child: Text(
+                      channel,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   )
                 ],
               ),

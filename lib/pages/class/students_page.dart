@@ -24,7 +24,7 @@ class _StudentsState extends State<StudentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("学生")),
+      appBar: AppBar(title: Text("学生" + '(' + studentsList.length.toString() + ')')),
       body: GridView.builder(
         padding: EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -34,8 +34,7 @@ class _StudentsState extends State<StudentsPage> {
           return GestureDetector(
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: Colors.blue[100]),
+                  borderRadius: BorderRadius.all(Radius.circular(8)), color: Colors.blue[100]),
               child: Center(child: Text(name)),
             ),
             onTap: () {
