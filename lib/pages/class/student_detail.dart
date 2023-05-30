@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class StudentDetailPage extends StatefulWidget {
@@ -38,6 +39,17 @@ class _StudentDetailState extends State<StudentDetailPage> {
                 ],
               ),
               height: 80,
+            ),
+            Row(
+              children: [
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(text: "@张益达(父)"),
+                  TextSpan(
+                      text: "15599059905",
+                      recognizer: TapGestureRecognizer()..onTap = () {}),
+                ]))
+              ],
             )
           ],
         ));
