@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/root/smart_education.dart';
-import 'package:smart_education/util/device.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_education/root/smart_education.dart';
+import 'package:smart_education/usercenter/usercenter.dart';
+import 'package:smart_education/util/device.dart';
 import '../util/database/database_manager.dart';
+import 'package:smart_education/usercenter/usercenter.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -13,12 +16,25 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<StatefulWidget> {
+
+  Future<String> _getToken() async {
+    SharedPreferences perfs = await SharedPreferences.getInstance();
+    String token = perfs.getString('token');
+    return token;
+  }
+
+
   final smartEducation = SmartEducation();
   bool splashHidden = false;
-
   @override
   void initState() {
     super.initState();
+    UserCenter center = UserCenter();
+    SharedPreferences.getInstance().then((value) => {
+      String token = value.getString('token');
+
+    });
+
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
         splashHidden = true;
