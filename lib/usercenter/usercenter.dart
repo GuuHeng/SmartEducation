@@ -17,7 +17,7 @@ class UserCenter {
 
   // 是否登录
   get isLogin {
-    return user != null && token != null;
+    return user != null && token != null && token!.isNotEmpty == true;
   }
 }
 

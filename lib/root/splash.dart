@@ -6,6 +6,7 @@ import 'package:smart_education/usercenter/usercenter.dart';
 import 'package:smart_education/util/device.dart';
 import '../util/database/database_manager.dart';
 import 'package:smart_education/usercenter/usercenter.dart';
+import 'package:smart_education/pages/login_page.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -16,13 +17,11 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<StatefulWidget> {
-
-  Future<String> _getToken() async {
+  Future<String?> _getTokenFromLocal() async {
     SharedPreferences perfs = await SharedPreferences.getInstance();
-    String token = perfs.getString('token');
+    String? token = perfs.getString('token');
     return token;
   }
-
 
   final smartEducation = SmartEducation();
   bool splashHidden = false;
@@ -30,9 +29,15 @@ class SplashState extends State<StatefulWidget> {
   void initState() {
     super.initState();
     UserCenter center = UserCenter();
-    SharedPreferences.getInstance().then((value) => {
-      String token = value.getString('token');
-
+    _getTokenFromLocal().then((value) {
+      center.token = value;
+      if (center.isLogin == true) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => SmartEducation()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
     });
 
     Future.delayed(Duration(seconds: 3), () {
@@ -44,32 +49,22 @@ class SplashState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Offstage(
-          child: smartEducation,
-          offstage: !splashHidden,
+    return Container(
+      padding: EdgeInsets.only(bottom: 30),
+      decoration: BoxDecoration(color: Colors.white),
+      child: Align(
+        child: Text(
+          '智慧教育',
+          style: TextStyle(
+            color: Colors.blue,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        Offstage(
-            child: Container(
-              padding: EdgeInsets.only(bottom: 30),
-              decoration: BoxDecoration(color: Colors.white),
-              child: Align(
-                child: Text(
-                  '智慧教育',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                alignment: Alignment.bottomCenter,
-              ),
-              width: Screen.width,
-              height: Screen.height,
-            ),
-            offstage: splashHidden)
-      ],
+        alignment: Alignment.bottomCenter,
+      ),
+      width: Screen.width,
+      height: Screen.height,
     );
   }
 }
