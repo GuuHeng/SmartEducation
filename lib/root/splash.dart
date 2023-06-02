@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_education/usercenter/LoginUser.dart';
+import 'package:smart_education/util/SharedPreferencesUtil.dart';
 import 'package:smart_education/root/smart_education.dart';
 import 'package:smart_education/usercenter/usercenter.dart';
 import 'package:smart_education/util/device.dart';
-import '../util/database/database_manager.dart';
-import 'package:smart_education/usercenter/usercenter.dart';
 import 'package:smart_education/pages/login_page.dart';
 
 class Splash extends StatefulWidget {
@@ -17,26 +15,28 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<StatefulWidget> {
-  Future<String?> _getTokenFromLocal() async {
-    SharedPreferences perfs = await SharedPreferences.getInstance();
-    String? token = perfs.getString('token');
-    return token;
-  }
-
   final smartEducation = SmartEducation();
   bool splashHidden = false;
   @override
   void initState() {
     super.initState();
     UserCenter center = UserCenter();
-    _getTokenFromLocal().then((value) {
-      center.token = value;
+
+    SharedPreferencesUtil.getInstance().then((value) {
+      Map<String, dynamic>? user = value.getMap('loginuser');
+      String? token = value.getString('token');
+
+      center.token = token;
+
+      if (user != null) {
+        center.user = LoginUser.fromJson(user);
+      }
+
       if (center.isLogin == true) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => SmartEducation()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+            context, MaterialPageRoute(builder: (context) => SmartEducation()));
       }
     });
 
