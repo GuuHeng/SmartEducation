@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/root/smart_education.dart';
+import 'package:smart_education/pages/root/smart_education.dart';
 import 'package:smart_education/pages/class/class_page.dart';
 import 'package:smart_education/pages/mine_page.dart';
 import 'package:smart_education/pages/timetable/timetable.dart';
 import 'package:smart_education/util/constant.dart';
 
-import '../pages/timetable/timetable_settings.dart';
-import '../util/database/database_manager.dart';
+import '../timetable/timetable_settings.dart';
+import '../../util/database/database_manager.dart';
 
 class SmartEducation extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/root/smart_education.dart';
-import 'root/splash.dart';
+import 'package:smart_education/pages/root/smart_education.dart';
+import 'pages/root/splash.dart';
 import 'pages/timetable/timetable.dart';
 import 'pages/timetable/weekday_timetable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

@@ -12,9 +12,42 @@ enum StudentsListStyle { list, grid }
 
 class _StudentsState extends State<StudentsPage> {
   List studentsList = [];
-  List letterIndexList = ['A', 'B', 'C', 'D', 'E', 'Z'];
+  List letterIndexList = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+    '#',
+    '!',
+    '@',
+    '%'
+  ];
   StudentsListStyle _listStyle = StudentsListStyle.grid;
   IconData _rightIcon = Icons.menu;
+  int letterSelectedIndex = 0;
+  double letterSelectedPositionY = 100.0;
 
   @override
   void initState() {
@@ -52,17 +85,22 @@ class _StudentsState extends State<StudentsPage> {
                 icon: Icon(_rightIcon))
           ],
         ),
-        body: _listStyle == StudentsListStyle.list ? setupListView() : setupGridView());
+        body: _listStyle == StudentsListStyle.list
+            ? setupListView()
+            : setupGridView());
   }
 
   _switchListStyle() {
-    _listStyle =
-        _listStyle == StudentsListStyle.list ? StudentsListStyle.grid : StudentsListStyle.list;
-    _rightIcon = _listStyle == StudentsListStyle.list ? Icons.grid_on : Icons.menu;
+    _listStyle = _listStyle == StudentsListStyle.list
+        ? StudentsListStyle.grid
+        : StudentsListStyle.list;
+    _rightIcon =
+        _listStyle == StudentsListStyle.list ? Icons.grid_on : Icons.menu;
     setState(() {});
   }
 
   Stack setupListView() {
+    final letterIndexHeight = 20.0;
     return Stack(
       children: [
         Positioned(
@@ -88,24 +126,62 @@ class _StudentsState extends State<StudentsPage> {
             top: 0,
             bottom: 0,
             right: 0,
-            width: 20,
+            width: 12,
             child: Container(
-              child: ListView.separated(
-                  itemBuilder: (BuildContext context, int index) {
-                    String name = letterIndexList[index];
-                    return ListTile(
-                      title: Text(name),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      height: 1,
-                    );
-                  },
-                  itemCount: letterIndexList.length),
-            ))
+                color: Color.fromARGB(50, 0, 0, 0),
+                child: Center(
+                    heightFactor: 5,
+                    child: Container(
+                        color: Colors.blue,
+                        height: letterIndexList.length * letterIndexHeight,
+                        child: GestureDetector(
+                          child: ListView.builder(
+                              itemCount: letterIndexList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String name = letterIndexList[index];
+                                return SizedBox(
+                                    height: letterIndexHeight,
+                                    child: Text(
+                                      name,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 12, color: Colors.white),
+                                    ));
+                              }),
+                          onVerticalDragStart: (details) {
+                            double y = details.localPosition.dy;
+                            int index = y ~/ letterIndexHeight; // ~/取整
+                            letterSelectedPositionY = index * letterIndexHeight;
+
+                            setState(() {
+                              letterSelectedIndex = index;
+                            });
+                          },
+                        ))))),
+        Positioned(
+            right: 20,
+            width: 50,
+            height: 50,
+            top: 100,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                child: Center(
+                  child: Text(
+                    letterIndexList[letterSelectedIndex],
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )))
       ],
     );
+  }
+
+  Widget updateLetterPosition() {
+
   }
 
   GridView setupGridView() {
@@ -118,7 +194,8 @@ class _StudentsState extends State<StudentsPage> {
         return GestureDetector(
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)), color: Colors.blue[100]),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: Colors.blue[100]),
             child: Center(child: Text(name)),
           ),
           onTap: () {

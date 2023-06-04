@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/usercenter/LoginUser.dart';
 import 'package:smart_education/util/SharedPreferencesUtil.dart';
-import 'package:smart_education/root/smart_education.dart';
+import 'package:smart_education/pages/root/smart_education.dart';
 import 'package:smart_education/usercenter/usercenter.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:smart_education/pages/login_page.dart';

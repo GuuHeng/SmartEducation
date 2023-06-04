@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_education/usercenter/usercenter.dart';
-import 'package:smart_education/root/smart_education.dart';
+import 'package:smart_education/pages/root/smart_education.dart';
 
 class LoginPage extends StatefulWidget {
   @override
