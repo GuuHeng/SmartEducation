@@ -42,6 +42,8 @@ dependencies:
   json_serializable: ^6.6.1
   build_runner: ^2.3.3
   path_provider: ^2.0.13
+  sticky_headers: ^0.3.0+2
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   flutter_test:
