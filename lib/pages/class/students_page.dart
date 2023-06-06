@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smart_education/main.dart';
 import 'package:smart_education/router.dart';
-import 'package:grouped_list/grouped_list.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:smart_education/util/device.dart';
+import 'package:easy_sticky_header/easy_sticky_header.dart';
 
 class StudentsPage extends StatefulWidget {
   @override
@@ -51,12 +54,11 @@ class _StudentsState extends State<StudentsPage> {
   final _cellHeight = 50.0;
   final letterIndexHeight = 16.0;
 
-  ScrollController? _scrollViewController;
+  final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
 
   @override
   void initState() {
     super.initState();
-    _scrollViewController = ScrollController();
   }
 
   @override
@@ -82,46 +84,53 @@ class _StudentsState extends State<StudentsPage> {
     setState(() {});
   }
 
+  Widget setupListSticky() {
+    return StickyHeader(
+        child: ListView.builder(
+      itemBuilder: (context, index) {
+        if (index % 6 == 0) {
+          return StickyContainerWidget(
+            index: index,
+            child: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.only(left: 16.0),
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              height: 50,
+              child: Text(
+                _dataList[index]['group'],
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          );
+        }
+
+        // Custom item widget.
+        return ListTile(
+          leading: ClipRRect(
+            child: Image.network(
+              'https://img2.baidu.com/it/u=170237391,555920326&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+              width: 40,
+              height: 40,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          title: Text(
+            _dataList[index]['name'],
+          ),
+        );
+      },
+      itemCount: _dataList.length,
+    ));
+  }
+
   Stack setupListView() {
     return Stack(
       children: [
-        Positioned(
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            child: GroupedListView(
-                stickyHeaderBackgroundColor: Colors.white,
-                controller: _scrollViewController,
-                elements: _dataList,
-                groupBy: (element) => element['group'],
-                useStickyGroupSeparators: true,
-                groupSeparatorBuilder: (String value) {
-                  return Container(
-                    // color: Colors.black12,
-                    alignment: Alignment.bottomLeft,
-                    padding: EdgeInsets.only(left: 15),
-                    child: Text(value),
-                    height: _groupHeaderHeight,
-                  );
-                },
-                itemBuilder: (context, element) {
-                  return ListTile(
-                    leading: ClipRRect(
-                      child: Image.network(
-                        'https://img2.baidu.com/it/u=170237391,555920326&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-                        width: 40,
-                        height: 40,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    title: Text(element['name']),
-                  );
-                },
-                separator: Divider(
-                  height: 1,
-                  indent: 60,
-                ))),
+        Positioned(top: 0, left: 0, bottom: 0, right: 0, child: setupListSticky()),
         Positioned(
             top: 0,
             bottom: 0,
@@ -163,10 +172,8 @@ class _StudentsState extends State<StudentsPage> {
                                 letterSelectedIndex = index;
                                 letterSelectedPositionY = index * letterIndexHeight;
 
-                                _scrollViewController!.animateTo(
-                                    getGroupOffsetY(letterSelectedIndex),
-                                    duration: Duration(milliseconds: 200),
-                                    curve: Curves.easeIn);
+                                itemScrollController.scrollTo(
+                                    index: 4, duration: Duration(milliseconds: 200));
                               });
                             }
                           },
@@ -201,18 +208,22 @@ class _StudentsState extends State<StudentsPage> {
     );
   }
 
-  double getGroupOffsetY(int letterIndex) {
+  double getGroupIndex(int letterIndex) {
     if (letterIndex == 0) return 0;
     double offsetY = (letterIndex + 1) * _groupHeaderHeight + 5 * _cellHeight * letterIndex;
+
+    final bodyHeight = Screen.height - Screen.navigatorBar_height;
 
     final listContentHeight =
         _groupHeaderHeight * letterIndexList.length + _cellHeight * _dataList.length;
 
-    if (listContentHeight - offsetY > context.size!.height) {
-      return offsetY;
+    if (listContentHeight - offsetY > bodyHeight) {
+      return (letterIndex + 1) * 5;
     }
 
-    return listContentHeight - context.size!.height;
+    // (listContentHeight - bodyHeight)
+
+    return listContentHeight - bodyHeight;
   }
 
   // Widget updateLetterPosition() {
