@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/pages/root/smart_education.dart';
 import 'pages/root/splash.dart';
-import 'pages/timetable/timetable.dart';
-import 'pages/timetable/weekday_timetable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
-import 'router.dart';
-import 'pages/timetable/subject_management.dart';
 
 final global_key_navigator = new GlobalKey<NavigatorState>();
 

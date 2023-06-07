@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smart_education/main.dart';
 import 'package:smart_education/router.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+// import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import 'package:smart_education/util/device.dart';
 import 'package:easy_sticky_header/easy_sticky_header.dart';
 
@@ -14,29 +13,33 @@ enum StudentsListStyle { list, grid }
 
 class _StudentsState extends State<StudentsPage> {
   List _dataList = [
-    {'name': 'A 房产', 'group': 'A'},
-    {'name': 'A 中介', 'group': 'A'},
-    {'name': 'A 老师', 'group': 'A'},
-    {'name': 'A 涨', 'group': 'A'},
-    {'name': 'A 啊', 'group': 'A'},
-    {'name': 'B 房产', 'group': 'B'},
-    {'name': 'B 中介', 'group': 'B'},
-    {'name': 'B 老师', 'group': 'B'},
-    {'name': 'B 涨', 'group': 'B'},
-    {'name': 'B 啊', 'group': 'B'},
-    {'name': 'C 房产', 'group': 'C'},
-    {'name': 'C 中介', 'group': 'C'},
-    {'name': 'C 老师', 'group': 'C'},
-    {'name': 'C 涨', 'group': 'C'},
-    {'name': 'C 啊', 'group': 'C'},
-    {'name': 'T 房产', 'group': 'T'},
-    {'name': 'T 中介', 'group': 'T'},
-    {'name': 'T 老师', 'group': 'T'},
-    {'name': 'T 涨', 'group': 'T'},
-    {'name': 'T 啊', 'group': 'T'}
+    {'section': 'A'},
+    {'name': 'A 1房产', 'group': 'A'},
+    {'name': 'A 2中介', 'group': 'A'},
+    {'name': 'A 3老师', 'group': 'A'},
+    {'name': 'A 4涨', 'group': 'A'},
+    {'name': 'A 5啊', 'group': 'A'},
+    {'section': 'B'},
+    {'name': 'B 1房产', 'group': 'B'},
+    {'name': 'B 2中介', 'group': 'B'},
+    {'name': 'B 3老师', 'group': 'B'},
+    {'name': 'B 4涨', 'group': 'B'},
+    {'name': 'B 5啊', 'group': 'B'},
+    {'section': 'C'},
+    {'name': 'C 1房产', 'group': 'C'},
+    {'name': 'C 2中介', 'group': 'C'},
+    {'name': 'C 3老师', 'group': 'C'},
+    {'name': 'C 4涨', 'group': 'C'},
+    {'name': 'C 5啊', 'group': 'C'},
+    {'section': 'T'},
+    {'name': 'T 1房产', 'group': 'T'},
+    {'name': 'T 2中介', 'group': 'T'},
+    {'name': 'T 3老师', 'group': 'T'},
+    {'name': 'T 4涨', 'group': 'T'},
+    {'name': 'T 5啊', 'group': 'T'}
   ];
 
-  List studentsList = [];
+  List _studentList = [];
   List letterIndexList = [
     'A',
     'B',
@@ -54,11 +57,18 @@ class _StudentsState extends State<StudentsPage> {
   final _cellHeight = 50.0;
   final letterIndexHeight = 16.0;
 
-  final GroupedItemScrollController itemScrollController = GroupedItemScrollController();
+  final StickyHeaderController _headerController = StickyHeaderController();
 
   @override
   void initState() {
     super.initState();
+
+    _dataList.forEach((element) {
+      Map e = element;
+      if (e.containsKey('name') == true) {
+        _studentList.add(element);
+      }
+    });
   }
 
   @override
@@ -86,45 +96,75 @@ class _StudentsState extends State<StudentsPage> {
 
   Widget setupListSticky() {
     return StickyHeader(
+        controller: _headerController,
         child: ListView.builder(
-      itemBuilder: (context, index) {
-        if (index % 6 == 0) {
-          return StickyContainerWidget(
-            index: index,
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.only(left: 16.0),
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              height: 50,
-              child: Text(
-                _dataList[index]['group'],
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+          itemBuilder: (context, index) {
+            Map e = _dataList[index];
+            if (e.containsKey('section') == true) {
+              return StickyContainerWidget(
+                index: index,
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(left: 16.0),
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  height: 50,
+                  child: Text(
+                    _dataList[index]['section'],
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
-        }
+              );
+            }
 
-        // Custom item widget.
-        return ListTile(
-          leading: ClipRRect(
-            child: Image.network(
-              'https://img2.baidu.com/it/u=170237391,555920326&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-              width: 40,
-              height: 40,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          title: Text(
-            _dataList[index]['name'],
-          ),
-        );
-      },
-      itemCount: _dataList.length,
-    ));
+            // Custom item widget.
+            return ListTile(
+              leading: ClipRRect(
+                child: Image.network(
+                  'https://img2.baidu.com/it/u=170237391,555920326&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+                  width: 40,
+                  height: 40,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              title: Text(
+                _dataList[index]['name'],
+              ),
+            );
+          },
+          itemCount: _dataList.length,
+        ));
+  }
+
+  // List<Widget> setupListContent() {
+  //   return letterIndexList.map((data, index) => {
+  //     letterSelectedIndex = index;
+  //     letterSelectedPositionY = letterSelectedIndex * letterIndexHeight;
+  //     return setupListSticky();
+  //   });
+  // }
+
+  List<Widget> setupLetterListView() {
+    List<Widget> views = [];
+    letterIndexList.forEach((element) {
+      String name = element;
+      var c = Padding(
+          padding: EdgeInsets.only(top: 2, bottom: 2, right: 1),
+          child: Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(6)),
+              child: Text(
+                name,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 9, color: Colors.white),
+              )));
+      views.add(c);
+    });
+    return views;
   }
 
   Stack setupListView() {
@@ -139,30 +179,12 @@ class _StudentsState extends State<StudentsPage> {
             child: Container(
                 color: Color.fromARGB(50, 0, 0, 0),
                 child: Center(
-                    heightFactor: 5,
+                    // heightFactor: 5,
                     child: Container(
                         // color: Colors.blue,
                         height: letterIndexList.length * letterIndexHeight,
                         child: GestureDetector(
-                          child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: letterIndexList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                String name = letterIndexList[index];
-                                return Padding(
-                                    padding: EdgeInsets.only(top: 2, bottom: 2, right: 1),
-                                    child: Container(
-                                        width: 12,
-                                        height: 12,
-                                        decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.circular(6)),
-                                        child: Text(
-                                          name,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 9, color: Colors.white),
-                                        )));
-                              }),
+                          child: Column(children: setupLetterListView()),
                           onVerticalDragDown: (details) {
                             double y = details.localPosition.dy;
                             int index = y ~/ letterIndexHeight; // ~/取整
@@ -172,8 +194,16 @@ class _StudentsState extends State<StudentsPage> {
                                 letterSelectedIndex = index;
                                 letterSelectedPositionY = index * letterIndexHeight;
 
-                                itemScrollController.scrollTo(
-                                    index: 4, duration: Duration(milliseconds: 200));
+                                for (var i = 0; i < _dataList.length; i++) {
+                                  Map e = _dataList[i];
+                                  if (e.containsKey('section') == true) {
+                                    if (e['section'] == letterIndexList[index]) {
+                                      int eIndex = _dataList.indexOf(e);
+                                      _headerController.animateTo(eIndex);
+                                      break;
+                                    }
+                                  }
+                                }
                               });
                             }
                           },
@@ -185,6 +215,17 @@ class _StudentsState extends State<StudentsPage> {
                               setState(() {
                                 letterSelectedIndex = index;
                                 letterSelectedPositionY = index * letterIndexHeight;
+
+                                for (var i = 0; i < _dataList.length; i++) {
+                                  Map e = _dataList[i];
+                                  if (e.containsKey('section') == true) {
+                                    if (e['section'] == letterIndexList[index]) {
+                                      int eIndex = _dataList.indexOf(e);
+                                      _headerController.animateTo(eIndex);
+                                      break;
+                                    }
+                                  }
+                                }
                               });
                             }
                           },
@@ -236,7 +277,7 @@ class _StudentsState extends State<StudentsPage> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10),
       itemBuilder: (BuildContext context, int index) {
-        String name = _dataList[index]['name'];
+        String name = _studentList[index]['name'];
         return GestureDetector(
           child: Container(
             decoration: BoxDecoration(
@@ -248,7 +289,7 @@ class _StudentsState extends State<StudentsPage> {
           },
         );
       },
-      itemCount: _dataList.length,
+      itemCount: _studentList.length,
     );
   }
 }

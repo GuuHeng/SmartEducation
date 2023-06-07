@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -45,9 +43,7 @@ class _StudentDetailState extends State<StudentDetailPage> {
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(text: "@张益达(父)"),
-                  TextSpan(
-                      text: "15599059905",
-                      recognizer: TapGestureRecognizer()..onTap = () {}),
+                  TextSpan(text: "15599059905", recognizer: TapGestureRecognizer()..onTap = () {}),
                 ]))
               ],
             )
